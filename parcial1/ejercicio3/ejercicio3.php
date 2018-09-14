@@ -16,6 +16,8 @@
 $n=0;
                   foreach ($array as $key => $val) {
                       if ($val['nombre'] == $user && $val['cont'] == $pass) {
+                          echo "Contraseña Correcta";
+                          echo "<br>";
                           echo $val['nombre'];
                           echo "<br>";
                           echo $val['cont'];
