@@ -97,4 +97,69 @@ class Chofer{
         return false;
 
     }
+
+    function update(){
+
+        // update query
+        $query = "UPDATE
+                    " . $this->table_name . "
+                SET
+                apellido=:apellido, nombre=:nombre, documento=:documento, email=:email, vehiculo_id=:vehiculo_id, sistema_id=:sistema_id
+                WHERE
+                    chofer_id = :chofer_id";
+
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // sanitize
+        $this->apellido=htmlspecialchars(strip_tags($this->apellido));
+        $this->nombre=htmlspecialchars(strip_tags($this->nombre));
+        $this->documento=htmlspecialchars(strip_tags($this->documento));
+        $this->email=htmlspecialchars(strip_tags($this->email));
+        $this->vehiculo_id=htmlspecialchars(strip_tags($this->vehiculo_id));
+        $this->sistema_id=htmlspecialchars(strip_tags($this->sistema_id));
+        $this->chofer_id=htmlspecialchars(strip_tags($this->chofer_id));
+
+
+        // bind new values
+        $stmt->bindParam(":apellido", $this->apellido);
+        $stmt->bindParam(":nombre", $this->nombre);
+        $stmt->bindParam(":documento", $this->documento);
+        $stmt->bindParam(":email", $this->email);
+        $stmt->bindParam(":vehiculo_id", $this->vehiculo_id);
+        $stmt->bindParam(":sistema_id", $this->sistema_id);
+        $stmt->bindParam(":chofer_id", $this->chofer_id);
+
+        // execute the query
+        if($stmt->execute()){
+            return true;
+        }
+
+        return false;
+    }
+
+    // delete the product
+    function delete(){
+
+        // delete query
+        $query = "DELETE FROM " . $this->table_name . " WHERE chofer_id = ?";
+
+        // prepare query
+        $stmt = $this->conn->prepare($query);
+
+        // sanitize
+        $this->chofer_id=htmlspecialchars(strip_tags($this->chofer_id));
+
+        // bind id of record to delete
+        $stmt->bindParam(1, $this->chofer_id);
+
+        // execute query
+        if($stmt->execute()){
+            return true;
+        }
+
+        return false;
+
+    }
+
 }
