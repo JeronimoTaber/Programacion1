@@ -6,34 +6,34 @@ header("Content-Type: application/json; charset=UTF-8");
 // include database and object files
 //include_once '../config/core.php';
 include_once '../config/database.php';
-include_once '../objects/auditoria.php';
+include_once '../objects/sistema_transporte.php';
 
-// instantiate database and auditoria object
+// instantiate database and chofer object
 $database = new Database();
 $db = $database->getConnection();
 
 // initialize object
-$auditoria = new Auditoria($db);
+$sistema_transporte = new Sistema_transporte($db);
 
 // get keywords
 $keywords=isset($_GET["s"]) ? $_GET["s"] : "";
 
 /*--------------------------------*/
 //si se deja $keywords=$_GET["s"];
-//y en la funcion search de auditoria.php se deja un solo LIKE y se sacan los bind param que sobran
+//y en la funcion search de sistema_transporte.php se deja un solo LIKE y se sacan los bind param que sobran
 //se puede hacer una busqueda con 1 solo parametro
 /*--------------------------------*/
 
-// query auditorias
-$stmt = $auditoria->search($keywords);
+// query chofers
+$stmt = $sistema_transporte->search($keywords);
 $num = $stmt->rowCount();
 
 // check if more than 0 record found
 if($num>0){
 
-    // auditorias array
-    $auditoria_arr=array();
-    $auditoria_arr["auditorias"]=array();
+    // chofers array
+    $sistema_transporte_arr=array();
+    $sistema_transporte_arr["records"]=array();
 
     // retrieve our table contents
     // fetch() is faster than fetchAll()
@@ -44,32 +44,32 @@ if($num>0){
         // just $name only
         extract($row);
 
-        $auditoria_item=array(
-          "auditoria_id" => $auditoria_id,
-          "fecha_acceso" => $fecha_acceso,
-          "user" => $user,
-          "response_time" => $response_time,
-          "endpoint" => $endpoint,
-          "created" => $created
+        $sistema_transporte_item=array(
+            "sistema_id" => $sistema_id,
+            "nombre" => $nombre,
+            "pais_procedencia" => $pais_procedencia,
+            "created" => $created,
+            "updated" => $updated
         );
 
-        array_push($auditoria_arr["auditorias"], $auditoria_item);
+
+        array_push($sistema_transporte_arr["records"], $sistema_transporte_item);
     }
 
     // set response code - 200 OK
     http_response_code(200);
 
-    // show auditorias data
-    echo json_encode($auditoria_arr);
+    // show chofers data
+    echo json_encode($sistema_transporte_arr);
 }
 
 else{
     // set response code - 404 Not found
     http_response_code(404);
 
-    // tell the user no auditorias found
+    // tell the user no chofers found
     echo json_encode(
-        array("message" => "No auditorias found.")
+        array("message" => "No chofers found.")
     );
 }
 ?>

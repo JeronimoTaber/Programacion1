@@ -28,12 +28,12 @@ class Chofer{
                p.chofer_id, p.apellido, p.nombre, p.documento, p.email, c.vehiculo_id, p.sistema_id, p.created, p.updated, c.patente
             FROM
                 (" . $this->table_name . " p)
-                LEFT JOIN
+                INNER JOIN
                 vehiculo c
                     ON p.vehiculo_id = c.vehiculo_id
-                LEFT JOIN
+                INNER JOIN
                 sistema_transporte d
-                        ON p.sistema_id = d.sistema_id
+                    ON p.sistema_id = d.sistema_id
             ORDER BY
                 p.created DESC";
         // prepare query statement
@@ -72,13 +72,13 @@ class Chofer{
         $stmt = $this->conn->prepare($query);
 
         // sanitize
-        $this->apellido=htmlspecialchars(strip_tags($this->apellido));
-        $this->nombre=htmlspecialchars(strip_tags($this->nombre));
-        $this->documento=htmlspecialchars(strip_tags($this->documento));
-        $this->email=htmlspecialchars(strip_tags($this->email));
-        $this->vehiculo_id=htmlspecialchars(strip_tags($this->vehiculo_id));
-        $this->sistema_id=htmlspecialchars(strip_tags($this->sistema_id));
-        $this->created=htmlspecialchars(strip_tags($this->created));
+        $this->apellido=strip_tags($this->apellido);
+        $this->nombre=strip_tags($this->nombre);
+        $this->documento=strip_tags($this->documento);
+        $this->email=strip_tags($this->email);
+        $this->vehiculo_id=strip_tags($this->vehiculo_id);
+        $this->sistema_id=strip_tags($this->sistema_id);
+        $this->created=strip_tags($this->created);
 
         // bind values
         $stmt->bindParam(":apellido", $this->apellido);
@@ -112,13 +112,13 @@ class Chofer{
         $stmt = $this->conn->prepare($query);
 
         // sanitize
-        $this->apellido=htmlspecialchars(strip_tags($this->apellido));
-        $this->nombre=htmlspecialchars(strip_tags($this->nombre));
-        $this->documento=htmlspecialchars(strip_tags($this->documento));
-        $this->email=htmlspecialchars(strip_tags($this->email));
-        $this->vehiculo_id=htmlspecialchars(strip_tags($this->vehiculo_id));
-        $this->sistema_id=htmlspecialchars(strip_tags($this->sistema_id));
-        $this->chofer_id=htmlspecialchars(strip_tags($this->chofer_id));
+        $this->apellido=strip_tags($this->apellido);
+        $this->nombre=strip_tags($this->nombre);
+        $this->documento=strip_tags($this->documento);
+        $this->email=strip_tags($this->email);
+        $this->vehiculo_id=strip_tags($this->vehiculo_id);
+        $this->sistema_id=strip_tags($this->sistema_id);
+        $this->chofer_id=strip_tags($this->chofer_id);
 
 
         // bind new values
@@ -137,7 +137,35 @@ class Chofer{
 
         return false;
     }
+    function search($keywords){
 
+        // select all query
+        $query = "SELECT
+              *
+          FROM
+              " . $this->table_name . "
+          WHERE
+              apellido LIKE ? OR nombre LIKE ? OR documento LIKE ?
+          ORDER BY
+              created DESC";
+
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // sanitize
+        $keywords=strip_tags($keywords);
+        $keywords = "%{$keywords}%";
+
+        // bind
+        $stmt->bindParam(1, $keywords);
+        $stmt->bindParam(2, $keywords);
+        $stmt->bindParam(3, $keywords);
+
+        // execute query
+        $stmt->execute();
+
+        return $stmt;
+      }
     // delete the product
     function delete(){
 
@@ -148,7 +176,7 @@ class Chofer{
         $stmt = $this->conn->prepare($query);
 
         // sanitize
-        $this->chofer_id=htmlspecialchars(strip_tags($this->chofer_id));
+        $this->chofer_id=strip_tags($this->chofer_id);
 
         // bind id of record to delete
         $stmt->bindParam(1, $this->chofer_id);

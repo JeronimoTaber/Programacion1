@@ -13,19 +13,51 @@ class Auditoria{
     public $endpoint;
     public $created;
 
-    // constructor with $db as database connection
+    // constructor with $db as database connectionz
     public function __construct($db){
         $this->conn = $db;
     }
+
+    function create(){
+
+      $query = "INSERT INTO
+                " . $this->table_name . "
+                (fecha_acceso,user,response_time,endpoint)
+                values
+                (NOW(),'pepe',100,'/auditoria')";
+      //$query = "INSERT INTO auditoria (fecha_acceso,user,response_time,endpoint) values (NOW(),'lala',23,'/chofer/read')";
+      // prepare query statement
+      $stmt = $this->conn->prepare($query);
+
+      // sanitize
+      $this->user=htmlspecialchars(strip_tags($this->user));
+      $this->datos=htmlspecialchars(strip_tags($this->datos));
+
+      // bind values
+      $stmt->bindParam(":user", $this->user);
+      $stmt->bindParam(":datos", $this->datos);
+
+      $stmt->execute();
+
+      return $stmt;
+    }
+
     function read(){
 
         // select all query
-        $query = "SELECT * FROM " . $this->table_name . "";
-
+        $query = "INSERT INTO auditoria (fecha_acceso,user,response_time,endpoint) values (NOW(),'pepe',100,'/auditoria') /*ON DUPLICATE KEY UPDATE fecha_acceso=NOW(), response_time=100, endpoint=/chofer/read*/";
+        //$query = "INSERT INTO auditoria (fecha_acceso,user,response_time,endpoint) values (NOW(),'lala',23,'/chofer/read')";
         // prepare query statement
         $stmt = $this->conn->prepare($query);
 
-        // execute query
+        // sanitize
+        $this->user=htmlspecialchars(strip_tags($this->user));
+        $this->datos=htmlspecialchars(strip_tags($this->datos));
+
+        // bind values
+        $stmt->bindParam(":user", $this->user);
+        $stmt->bindParam(":datos", $this->datos);
+
         $stmt->execute();
 
         return $stmt;
