@@ -7,26 +7,26 @@ header("Content-Type: application/json; charset=UTF-8");
 
 // include database and object files
 include_once '../config/database.php';
-include_once '../objects/sistema_transporte.php';
+include_once '../objects/vehiculo.php';
 
-// instantiate database and sistema_transporte object
+// instantiate database and vehiculo object
 $database = new Database();
 $db = $database->getConnection();
 
 // initialize object
-$sistema_transporte = new Sistema_transporte($db);
+$vehiculo = new Vehiculo($db);
 
-// read sistema_transportes will be here
+// read vehiculos will be here
 
-$stmt = $sistema_transporte->read();
+$stmt = $vehiculo->read();
 $num = $stmt->rowCount();
 
 // check if more than 0 record found
 if($num>0){
 
-    // sistema_transportes array
-    $sistema_transporte_arr=array();
-    $sistema_transporte_arr["sistema_transportes"]=array();
+    // vehiculos array
+    $vehiculo_arr=array();
+    $vehiculo_arr["vehiculos"]=array();
 
     // retrieve our table contents
     // fetch() is faster than fetchAll()
@@ -37,23 +37,26 @@ if($num>0){
         // just $name only
         extract($row);
 
-        $sistema_transporte_item=array(
-            "sistema_id" => $sistema_id,
-            "nombre" => $nombre,
-            "pais_procedencia" => $pais_procedencia,
+        $vehiculo_item=array(
+            "vehiculo_id" => $vehiculo_id,
+            "patente" => $patente,
+            "anho_patente" => $anho_patente,
+            "anho_fabricacion" => $anho_fabricacion,
+            "marca" => $marca,
+            "modelo" => $modelo,
             "created" => $created,
             "updated" => $updated
         );
 
-        array_push($sistema_transporte_arr["sistema_transportes"], $sistema_transporte_item);
+        array_push($vehiculo_arr["vehiculos"], $vehiculo_item);
     }
     // set response code - 200 OK
       http_response_code(200);
-      // show sistema_transportes data in json format
-      echo json_encode($sistema_transporte_arr);
+      // show vehiculos data in json format
+      echo json_encode($vehiculo_arr);
   }
 
-  // no sistema_transportes found will be here
+  // no vehiculos found will be here
 
   else{
 
@@ -61,8 +64,8 @@ if($num>0){
       http_response_code(404);
 
 
-      // tell the user no sistema_transportes found
+      // tell the user no vehiculos found
       echo json_encode(
-          array("message" => "No sistema_transportes found.")
+          array("message" => "No vehiculos found.")
       );
   }

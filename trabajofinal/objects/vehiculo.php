@@ -9,11 +9,12 @@ class Vehiculo{
     public $vehiculo_id;
     public $patente;
     public $anho_patente;
+    public $anho_fabricacion;
     public $marca;
     public $modelo;
     public $created;
     public $updated;
-    
+
     // constructor with $db as database connection
     public function __construct($db){
         $this->conn = $db;
@@ -77,5 +78,28 @@ class Vehiculo{
 
     }
 
+    function read(){
+    //si se coloca inner en lugar de left muestra solo las compañias que tienen vehiculos regisitrados
+        // select all query
+        $query = "SELECT
+               v.vehiculo_id, v.patente, v.anho_patente, v.anho_fabricacion, v.marca, v.modelo, v.created, v.updated
+            FROM
+                (" . $this->table_name . " v)
+               LEFT JOIN
+                sistema_vehiculo s
+                    ON v.vehiculo_id = s.vehiculo_id
+                LEFT JOIN
+                sistema_transporte t
+                        ON s.sistema_id = t.sistema_id
+            ORDER BY
+                v.created DESC";
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // execute query
+        $stmt->execute();
+
+        return $stmt;
+    }
 
 }

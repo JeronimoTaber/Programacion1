@@ -1,6 +1,6 @@
 <?php
-//error_reporting(E_ALL);
-//ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 class Database{
 
 
@@ -16,12 +16,12 @@ class Database{
 
         $this->conn = null;
 
-        //try{
+        try{
             $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
             $this->conn->exec("set names utf8");
-        //}catch(PDOException $exception){
-        //    echo "Connection error: " . $exception->getMessage();
-        //}
+        }catch(PDOException $exception){
+           echo "Connection error: " . $exception->getMessage();
+        }
 
         return $this->conn;
     }
