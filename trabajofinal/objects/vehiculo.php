@@ -101,5 +101,70 @@ class Vehiculo{
 
         return $stmt;
     }
+    function search($keywords){
+
+        // select all query
+        $query = "SELECT
+              *
+          FROM
+              " . $this->table_name . "
+          WHERE
+              vehiculo_id LIKE ? OR patente LIKE ? OR marca LIKE ?
+          ORDER BY
+              created DESC";
+
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // sanitize
+        $keywords=strip_tags($keywords);
+        $keywords = "%{$keywords}%";
+
+        // bind
+        $stmt->bindParam(1, $keywords);
+        $stmt->bindParam(2, $keywords);
+        $stmt->bindParam(3, $keywords);
+
+        // execute query
+        $stmt->execute();
+
+        return $stmt;
+      }
+      function update(){
+
+          // update query
+          $query = "UPDATE
+                      (" . $this->table_name . ")
+                  SET
+                  patente=:patente, anho_patente=:anho_patente, anho_fabricacion=:anho_fabricacion, marca=:marca, modelo=:modelo
+                  WHERE
+                      vehiculo_id = :vehiculo_id";
+
+          // prepare query statement
+          $stmt = $this->conn->prepare($query);
+
+          // sanitize
+          $this->vehiculo_id=strip_tags($this->vehiculo_id);
+          $this->patente=strip_tags($this->patente);
+          $this->anho_patente=strip_tags($this->anho_patente);
+          $this->anho_fabricacion=strip_tags($this->anho_fabricacion);
+          $this->marca=strip_tags($this->marca);
+          $this->modelo=strip_tags($this->modelo);
+
+          // bind values
+          $stmt->bindParam(":vehiculo_id", $this->vehiculo_id);
+          $stmt->bindParam(":patente", $this->patente);
+          $stmt->bindParam(":anho_patente", $this->anho_patente);
+          $stmt->bindParam(":anho_fabricacion", $this->anho_fabricacion);
+          $stmt->bindParam(":marca", $this->marca);
+          $stmt->bindParam(":modelo", $this->modelo);
+
+          // execute the query
+          if($stmt->execute()){
+              return true;
+          }
+
+          return false;
+      }
 
 }

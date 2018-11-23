@@ -8,39 +8,46 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 // include database and object files
 include_once '../config/database.php';
-include_once '../objects/sistema_transporte.php';
+include_once '../objects/vehiculo.php';
+include_once '../objects/sistema_vehiculo.php';
 
 // get database connection
 $database = new Database();
 $db = $database->getConnection();
 
-// prepare sistema_transporte object
-$sistema_transporte = new Sistema_transporte($db);
+// prepare vehiculo object
+$vehiculo = new Vehiculo($db);
+$sistema_vehiculo = new Sistema_vehiculo($db);
 
-// get id of sistema_transporte to be edited
+// get id of vehiculo to be edited
 $data = json_decode(file_get_contents("php://input"));
 
-// set ID property of sistema_transporte to be edited
-$sistema_transporte->sistema_id = $data->sistema_id;
-$sistema_transporte->nombre = $data->nombre;
-$sistema_transporte->pais_procedencia = $data->pais_procedencia;
+// set ID property of vehiculo to be edited
+$vehiculo->vehiculo_id = $data->vehiculo_id;
+$vehiculo->patente = $data->patente;
+$vehiculo->anho_patente = $data->anho_patente;
+$vehiculo->anho_fabricacion = $data->anho_fabricacion;
+$vehiculo->marca = $data->marca;
+$vehiculo->modelo = $data->modelo;
+$sistema_vehiculo->vehiculo_id = $data->vehiculo_id;
+$sistema_vehiculo->sistema_id = $data->sistema_id;
 
-// update the sistema_transporte
-if($sistema_transporte->update()){
+// update the vehiculo
+if($vehiculo->update() && $sistema_vehiculo->update()){
 
     // set response code - 200 ok
     http_response_code(200);
 
     // tell the user
-    echo json_encode(array("message" => "sistema_transporte was updated."));
+    echo json_encode(array("message" => "vehiculo was updated."));
 }
 
-// if unable to update the sistema_transporte, tell the user
+// if unable to update the vehiculo, tell the user
 else{
 
     // set response code - 503 service unavailable
     http_response_code(503);
 
     // tell the user
-    echo json_encode(array("message" => "Unable to update sistema_transporte."));
+    echo json_encode(array("message" => "Unable to update vehiculo."));
 }

@@ -92,4 +92,32 @@ class Sistema_vehiculo{
         return false;
 
     }
+    function update(){
+
+        // update query
+        $query = "UPDATE
+                    (" . $this->table_name . ")
+                SET
+                sistema_id = :sistema_id
+                WHERE
+                    vehiculo_id = :vehiculo_id";
+
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // sanitize
+        $this->vehiculo_id=strip_tags($this->vehiculo_id);
+        $this->sistema_id=strip_tags($this->sistema_id);
+
+        // bind values
+        $stmt->bindParam(":vehiculo_id", $this->vehiculo_id);
+        $stmt->bindParam(":sistema_id", $this->sistema_id);
+
+        // execute the query
+        if($stmt->execute()){
+            return true;
+        }
+
+        return false;
+    }
 }

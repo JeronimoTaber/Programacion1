@@ -6,34 +6,34 @@ header("Content-Type: application/json; charset=UTF-8");
 // include database and object files
 //include_once '../config/core.php';
 include_once '../config/database.php';
-include_once '../objects/sistema_transporte.php';
+include_once '../objects/vehiculo.php';
 
 // instantiate database and chofer object
 $database = new Database();
 $db = $database->getConnection();
 
 // initialize object
-$sistema_transporte = new Sistema_transporte($db);
+$vehiculo = new Vehiculo($db);
 
 // get keywords
 $keywords=isset($_GET["s"]) ? $_GET["s"] : "";
 
 /*--------------------------------*/
 //si se deja $keywords=$_GET["s"];
-//y en la funcion search de sistema_transporte.php se deja un solo LIKE y se sacan los bind param que sobran
+//y en la funcion search de vehiculo.php se deja un solo LIKE y se sacan los bind param que sobran
 //se puede hacer una busqueda con 1 solo parametro
 /*--------------------------------*/
 
 // query chofers
-$stmt = $sistema_transporte->search($keywords);
+$stmt = $vehiculo->search($keywords);
 $num = $stmt->rowCount();
 
 // check if more than 0 record found
 if($num>0){
 
     // chofers array
-    $sistema_transporte_arr=array();
-    $sistema_transporte_arr["records"]=array();
+    $vehiculo_arr=array();
+    $vehiculo_arr["records"]=array();
 
     // retrieve our table contents
     // fetch() is faster than fetchAll()
@@ -44,23 +44,26 @@ if($num>0){
         // just $name only
         extract($row);
 
-        $sistema_transporte_item=array(
-            "sistema_id" => $sistema_id,
-            "nombre" => $nombre,
-            "pais_procedencia" => $pais_procedencia,
+        $vehiculo_item=array(
+            "vehiculo_id" => $vehiculo_id,
+            "patente" => $patente,
+            "anho_patente" => $anho_patente,
+            "anho_fabricacion" => $anho_fabricacion,
+            "marca" => $marca,
+            "modelo" => $modelo,
             "created" => $created,
             "updated" => $updated
         );
 
 
-        array_push($sistema_transporte_arr["records"], $sistema_transporte_item);
+        array_push($vehiculo_arr["records"], $vehiculo_item);
     }
 
     // set response code - 200 OK
     http_response_code(200);
 
     // show chofers data
-    echo json_encode($sistema_transporte_arr);
+    echo json_encode($vehiculo_arr);
 }
 
 else{
