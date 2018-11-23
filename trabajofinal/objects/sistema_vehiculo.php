@@ -92,6 +92,28 @@ class Sistema_vehiculo{
         return false;
 
     }
+    function deletesis(){
+
+        // delete query
+        $query = "DELETE FROM " . $this->table_name . " WHERE sistema_id = ?";
+
+        // prepare query
+        $stmt = $this->conn->prepare($query);
+
+        // sanitize
+        $this->sistema_id=strip_tags($this->sistema_id);
+
+        // bind id of record to delete
+        $stmt->bindParam(1, $this->sistema_id);
+
+        // execute query
+        if($stmt->execute()){
+            return true;
+        }
+
+        return false;
+
+    }
     function update(){
 
         // update query
