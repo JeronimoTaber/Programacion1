@@ -9,7 +9,6 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // include database and object file
 include_once '../config/database.php';
 include_once '../objects/sistema_transporte.php';
-include_once '../objects/sistema_vehiculo.php';
 
 // get database connection
 $database = new Database();
@@ -17,17 +16,15 @@ $db = $database->getConnection();
 
 // prepare chofer object
 $sistema_transporte = new Sistema_transporte($db);
-$sistema_vehiculo = new Sistema_vehiculo($db);
 
 // get chofer id
 $data = json_decode(file_get_contents("php://input"));
 
 // set chofer id to be deleted
 $sistema_transporte->sistema_id = $data->sistema_id;
-$sistema_vehiculo->sistema_id = $data->sistema_id;
 
 // delete the chofer
-if($sistema_vehiculo->deletesis() && $sistema_transporte->delete()){
+if($sistema_transporte->delete()){
     // set response code - 200 ok
     http_response_code(200);
 

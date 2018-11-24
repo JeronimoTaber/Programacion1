@@ -137,23 +137,35 @@ class Sistema_transporte{
     function delete(){
 
         // delete query
-        $query = "DELETE FROM " . $this->table_name . " WHERE sistema_id = ?";
+        $query = "DELETE FROM " . $this->table_name_vehi . " WHERE sistema_id = ?";
+        // delete query
+        $query2 = "DELETE FROM " . $this->table_name . " WHERE sistema_id = ?";
 
         // prepare query
         $stmt = $this->conn->prepare($query);
+        $stmt2 = $this->conn->prepare($query2);
 
         // sanitize
         $this->sistema_id=strip_tags($this->sistema_id);
 
         // bind id of record to delete
         $stmt->bindParam(1, $this->sistema_id);
+        $stmt2->bindParam(1, $this->sistema_id);
 
         // execute query
-        if($stmt->execute()){
-            return true;
-        }
+        try{
+          $this->conn->beginTransaction();
+          $stmt->execute();
+          $stmt2->execute();
 
-        return false;
+          // execute query
+          if($this->conn->commit()){
+              return true;
+          };
+        }catch(Exception $e){
+          $this->conn->rollBack();
+          return false;
+        }
 
     }
 }

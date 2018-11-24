@@ -4,6 +4,7 @@ class Vehiculo{
     // database connection and table name
     private $conn;
     private $table_name = "vehiculo";
+    private $table_name_sis = "sistema_vehiculo";
 
     // object properties
     public $vehiculo_id;
@@ -21,7 +22,6 @@ class Vehiculo{
     }
     // read products
     function create(){
-
         // query to insert record
         $query = "INSERT INTO
                     " . $this->table_name . "
@@ -47,34 +47,91 @@ class Vehiculo{
         $stmt->bindParam(":modelo", $this->modelo);
         $stmt->bindParam(":created", $this->created);
 
+
+              $query2 = "SELECT vehiculo_id FROM (" . $this->table_name . ") WHERE patente=:patente";
+
+              // prepare query
+              $stmt2 = $this->conn->prepare($query2);
+
+              // sanitize
+              //$this->patente=strip_tags($this->patente);
+              //echo json_encode($this->patente);
+              // bind value
+              $stmt2->bindParam(":patente", $this->patente);
+
+              // execute query
+
+              //$data = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+              //$this->vehiculo_id = $data["vehiculo_id"];
+              //echo json_encode($data["vehiculo_id"]);
+
+
+                // query to insert record
+                $query3 = "INSERT INTO
+                            " . $this->table_name_sis . "
+                        SET
+                            vehiculo_id=:vehiculo_id, sistema_id=:sistema_id, created=:created";
+
+                // prepare query
+                $stmt3 = $this->conn->prepare($query3);
+
+                // sanitize
+                //$this->vehiculo_id=strip_tags($this->vehiculo_id);
+                $this->sistema_id=strip_tags($this->sistema_id);
+                //$this->created=strip_tags($this->created);
+
+                // bind values
+                $stmt3->bindParam(":vehiculo_id", $this->vehiculo_id);
+                $stmt3->bindParam(":sistema_id", $this->sistema_id);
+                $stmt3->bindParam(":created", $this->created);
+      try{
+        $this->conn->beginTransaction();
+        $stmt->execute();
+        $stmt2->execute();
+        $data = $stmt2->fetch(PDO::FETCH_ASSOC);
+        $this->vehiculo_id = $data["vehiculo_id"];
+        $stmt3->execute();
+
         // execute query
-        if($stmt->execute()){
+        if($this->conn->commit()){
             return true;
-        }
-
+        };
+      }catch(Exception $e){
+        $this->conn->rollBack();
         return false;
-
+      }
     }
     function delete(){
 
         // delete query
-        $query = "DELETE FROM " . $this->table_name . " WHERE vehiculo_id = ?";
+        $query = "DELETE FROM " . $this->table_name_sis . " WHERE vehiculo_id=:vehiculo_id";
+        $query2 = "DELETE FROM " . $this->table_name . " WHERE vehiculo_id=:vehiculo_id";
 
         // prepare query
         $stmt = $this->conn->prepare($query);
+        $stmt2 = $this->conn->prepare($query2);
 
         // sanitize
         $this->vehiculo_id=strip_tags($this->vehiculo_id);
 
         // bind id of record to delete
-        $stmt->bindParam(1, $this->vehiculo_id);
-
+        $stmt->bindParam(":vehiculo_id", $this->vehiculo_id);
+        $stmt2->bindParam(":vehiculo_id", $this->vehiculo_id);
         // execute query
-        if($stmt->execute()){
-            return true;
-        }
+        try{
+          $this->conn->beginTransaction();
+          $stmt->execute();
+          $stmt2->execute();
 
-        return false;
+          // execute query
+          if($this->conn->commit()){
+              return true;
+          };
+        }catch(Exception $e){
+          $this->conn->rollBack();
+          return false;
+        }
 
     }
 
@@ -166,5 +223,18 @@ class Vehiculo{
 
           return false;
       }
+      /*public function test(){
+   try{
+       // Starts our transaction
+       $this->connection->beginTransaction();
+       $this->connection->exec("INSERT INTO sistema_transporte SET nombre='lele',pais_procedencia='sadsad'");
+       $this->connection->exec("INSERT INTO sistema_vehiculo SET sistema_id=204");
+       // Commits out queries
+       $this->connection->commit();
+   }catch(Exception $e){
+       $this->connection->rollBack();
+       echo 'ERROR: ' . $e->getMessage();
+   }
+ } */
 
 }

@@ -12,13 +12,13 @@ include_once '../config/database.php';
 
 // instantiate vehiculo object
 include_once '../objects/vehiculo.php';
-include_once '../objects/sistema_vehiculo.php';
+//include_once '../objects/sistema_vehiculo.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
 $vehiculo = new Vehiculo($db);
-$sistema_vehiculo = new Sistema_vehiculo($db);
+//$sistema_vehiculo = new Sistema_vehiculo($db);
 
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
@@ -31,6 +31,8 @@ if(
     !empty($data->modelo) &&
     !empty($data->sistema_id)
 ){
+  //$array=array();
+  //$array = $data->sistema_id;
 
     // set vehiculo property values
     $vehiculo->patente = $data->patente;
@@ -39,12 +41,13 @@ if(
     $vehiculo->marca = $data->marca;
     $vehiculo->modelo = $data->modelo;
     $vehiculo->created = date('Y-m-d H:i:s');
-    $sistema_vehiculo->patente = $data->patente;
-    $sistema_vehiculo->sistema_id = $data->sistema_id;
-    $sistema_vehiculo->created = date('Y-m-d H:i:s');
+    //$sistema_vehiculo->patente = $data->patente;
+    $vehiculo->sistema_id = $data->sistema_id;
+    //$sistema_vehiculo->created = date('Y-m-d H:i:s');
     //echo json_encode($vehiculo->anho_fa);
     // create the vehiculo
-  if($vehiculo->create() && $sistema_vehiculo->create()){
+
+  if($vehiculo->create()/* && $sistema_vehiculo->create()*/){
 /* */
         // set response code - 201 created
         http_response_code(201);
@@ -65,8 +68,8 @@ if(
 }
 
 // tell the user data is incomplete
-else{
 
+else{
     // set response code - 400 bad request
     http_response_code(400);
 
