@@ -156,16 +156,41 @@ class Sistema_transporte{
         try{
           $this->conn->beginTransaction();
           $stmt->execute();
+          $this->deletechofer();
+          $this->deletevehiculo();
           $stmt2->execute();
-
           // execute query
           if($this->conn->commit()){
               return true;
-          };
+          }
         }catch(Exception $e){
           $this->conn->rollBack();
           return false;
         }
+
+    }
+    function deletevehiculo(){
+
+        // delete query
+        $query = "DELETE FROM vehiculo WHERE vehiculo_id NOT IN (SELECT vehiculo_id FROM sistema_vehiculo)";
+
+        // prepare query
+        $stmt = $this->conn->prepare($query);
+
+          $stmt->execute();
+
+
+    }
+    function deletechofer(){
+
+        // delete query
+        $query = "DELETE FROM chofer WHERE sistema_id NOT IN (SELECT sistema_id FROM sistema_vehiculo)";
+
+        // prepare query
+        $stmt = $this->conn->prepare($query);
+
+          $stmt->execute();
+
 
     }
 }

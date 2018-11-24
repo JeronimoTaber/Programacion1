@@ -9,7 +9,6 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // include database and object files
 include_once '../config/database.php';
 include_once '../objects/vehiculo.php';
-include_once '../objects/sistema_vehiculo.php';
 
 // get database connection
 $database = new Database();
@@ -17,7 +16,6 @@ $db = $database->getConnection();
 
 // prepare vehiculo object
 $vehiculo = new Vehiculo($db);
-$sistema_vehiculo = new Sistema_vehiculo($db);
 
 // get id of vehiculo to be edited
 $data = json_decode(file_get_contents("php://input"));
@@ -29,11 +27,11 @@ $vehiculo->anho_patente = $data->anho_patente;
 $vehiculo->anho_fabricacion = $data->anho_fabricacion;
 $vehiculo->marca = $data->marca;
 $vehiculo->modelo = $data->modelo;
-$sistema_vehiculo->vehiculo_id = $data->vehiculo_id;
-$sistema_vehiculo->sistema_id = $data->sistema_id;
+$vehiculo->sistema_id = $data->sistema_id;
+$vehiculo->old_sistema_id = $data->old_sistema_id;
 
 // update the vehiculo
-if($vehiculo->update() && $sistema_vehiculo->update()){
+if($vehiculo->update()){
 
     // set response code - 200 ok
     http_response_code(200);

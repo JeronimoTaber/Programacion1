@@ -15,6 +15,8 @@ class Vehiculo{
     public $modelo;
     public $created;
     public $updated;
+    public $sistema_id;
+    public $old_sistema_id;
 
     // constructor with $db as database connection
     public function __construct($db){
@@ -53,20 +55,7 @@ class Vehiculo{
               // prepare query
               $stmt2 = $this->conn->prepare($query2);
 
-              // sanitize
-              //$this->patente=strip_tags($this->patente);
-              //echo json_encode($this->patente);
-              // bind value
               $stmt2->bindParam(":patente", $this->patente);
-
-              // execute query
-
-              //$data = $stmt2->fetch(PDO::FETCH_ASSOC);
-
-              //$this->vehiculo_id = $data["vehiculo_id"];
-              //echo json_encode($data["vehiculo_id"]);
-
-
                 // query to insert record
                 $query3 = "INSERT INTO
                             " . $this->table_name_sis . "
@@ -76,14 +65,9 @@ class Vehiculo{
                 // prepare query
                 $stmt3 = $this->conn->prepare($query3);
 
-                // sanitize
-                //$this->vehiculo_id=strip_tags($this->vehiculo_id);
-                $this->sistema_id=strip_tags($this->sistema_id);
-                //$this->created=strip_tags($this->created);
-
                 // bind values
                 $stmt3->bindParam(":vehiculo_id", $this->vehiculo_id);
-                $stmt3->bindParam(":sistema_id", $this->sistema_id);
+              //  $stmt3->bindParam(":sistema_id", $this->sistema_id);
                 $stmt3->bindParam(":created", $this->created);
       try{
         $this->conn->beginTransaction();
@@ -91,13 +75,20 @@ class Vehiculo{
         $stmt2->execute();
         $data = $stmt2->fetch(PDO::FETCH_ASSOC);
         $this->vehiculo_id = $data["vehiculo_id"];
-        $stmt3->execute();
+
+        for($i=0; $i<count($this->sistema_id); $i++){
+                    $aux = $this->sistema_id[$i];
+                    $stmt3->bindParam(":sistema_id", $aux);
+                    $stmt3->execute();
+                }
+
 
         // execute query
         if($this->conn->commit()){
             return true;
         };
       }catch(Exception $e){
+        //echo json_encode("asdsada");
         $this->conn->rollBack();
         return false;
       }
@@ -119,19 +110,48 @@ class Vehiculo{
         $stmt->bindParam(":vehiculo_id", $this->vehiculo_id);
         $stmt2->bindParam(":vehiculo_id", $this->vehiculo_id);
         // execute query
+      //    $stmt->execute();
+      //  $stmt2->execute();
+
         try{
           $this->conn->beginTransaction();
           $stmt->execute();
-          $stmt2->execute();
+          //
 
+          $this->deletechofer();
+          $stmt2->execute();
           // execute query
           if($this->conn->commit()){
               return true;
-          };
+          }
         }catch(Exception $e){
           $this->conn->rollBack();
           return false;
         }
+
+    }
+    function deletevehiculo(){
+
+        // delete query
+        $query = "DELETE FROM vehiculo WHERE vehiculo_id NOT IN (SELECT vehiculo_id FROM sistema_vehiculo)";
+
+        // prepare query
+        $stmt = $this->conn->prepare($query);
+
+          $stmt->execute();
+
+
+    }
+    function deletechofer(){
+
+        // delete query
+        $query = "DELETE FROM chofer WHERE vehiculo_id NOT IN (SELECT vehiculo_id FROM sistema_vehiculo)";
+
+        // prepare query
+        $stmt = $this->conn->prepare($query);
+
+          $stmt->execute();
+
 
     }
 
@@ -196,10 +216,16 @@ class Vehiculo{
                   patente=:patente, anho_patente=:anho_patente, anho_fabricacion=:anho_fabricacion, marca=:marca, modelo=:modelo
                   WHERE
                       vehiculo_id = :vehiculo_id";
+          $query2 = "UPDATE
+                      (" . $this->table_name_sis . ")
+                  SET
+                  sistema_id = :sistema_id
+                  WHERE
+                      vehiculo_id=:vehiculo_id AND sistema_id=:old_sistema_id ";
 
           // prepare query statement
           $stmt = $this->conn->prepare($query);
-
+          $stmt2 = $this->conn->prepare($query2);
           // sanitize
           $this->vehiculo_id=strip_tags($this->vehiculo_id);
           $this->patente=strip_tags($this->patente);
@@ -207,7 +233,8 @@ class Vehiculo{
           $this->anho_fabricacion=strip_tags($this->anho_fabricacion);
           $this->marca=strip_tags($this->marca);
           $this->modelo=strip_tags($this->modelo);
-
+          $this->sistema_id=strip_tags($this->sistema_id);
+          $this->old_sistema_id=strip_tags($this->old_sistema_id);
           // bind values
           $stmt->bindParam(":vehiculo_id", $this->vehiculo_id);
           $stmt->bindParam(":patente", $this->patente);
@@ -215,26 +242,21 @@ class Vehiculo{
           $stmt->bindParam(":anho_fabricacion", $this->anho_fabricacion);
           $stmt->bindParam(":marca", $this->marca);
           $stmt->bindParam(":modelo", $this->modelo);
-
+          $stmt2->bindParam(":vehiculo_id", $this->vehiculo_id);
+          $stmt2->bindParam(":sistema_id", $this->sistema_id);
+          $stmt2->bindParam(":old_sistema_id", $this->old_sistema_id);
           // execute the query
-          if($stmt->execute()){
-              return true;
+          try{
+            $this->conn->beginTransaction();
+            $stmt->execute();
+            $stmt2->execute();
+            // execute query
+            if($this->conn->commit()){
+                return true;
+            }
+          }catch(Exception $e){
+            $this->conn->rollBack();
+            return false;
           }
-
-          return false;
-      }
-      /*public function test(){
-   try{
-       // Starts our transaction
-       $this->connection->beginTransaction();
-       $this->connection->exec("INSERT INTO sistema_transporte SET nombre='lele',pais_procedencia='sadsad'");
-       $this->connection->exec("INSERT INTO sistema_vehiculo SET sistema_id=204");
-       // Commits out queries
-       $this->connection->commit();
-   }catch(Exception $e){
-       $this->connection->rollBack();
-       echo 'ERROR: ' . $e->getMessage();
-   }
- } */
-
+}
 }
