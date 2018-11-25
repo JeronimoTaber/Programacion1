@@ -21,9 +21,7 @@ $user = new User($db);
 $data = json_decode(file_get_contents("php://input"));
 
 // set product property values
-$user->firstname = $data->firstname;
-$user->lastname = $data->lastname;
-$user->email = $data->email;
+$user->username = $data->username;
 $user->password = $data->password;
 
 // create the user
