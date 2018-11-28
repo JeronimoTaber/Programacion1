@@ -1,17 +1,16 @@
 <?php
 // show error reporting
-ini_set('display_errors', 1);
 error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// home page url
-$home_url="http://localhost/programacion1/trabajofinal/";
+// set your default time-zone
+date_default_timezone_set('America/Argentina/Mendoza');
 
-// page given in URL parameter, default page is one
-$page = isset($_GET['page']) ? $_GET['page'] : 1;
-
-// set number of records per page
-$records_per_page = 5;
-
-// calculate for the query LIMIT clause
-$from_record_num = ($records_per_page * $page) - $records_per_page;
+// variables used for jwt
+$key = "example_key";//nombre secreto para encriptar y desencriptar token
+$iss = "http://example.org";//identifica a la pag que creo el token
+$aud = "http://example.com";//identifica a la pag que recivio el token
+$iat = 1356999524;//identifica el tieempo en el cual el token fue creado
+$nbf = 1357000000;//identifica el tiempo antedes de que se acepte el token
+//el tiempo de nbf es menor al iat para evitar probemas de region
 ?>
