@@ -6,7 +6,7 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-require_once '../vendor/autoload.php';
+require_once '../libs/vendor/autoload.php';
 use \Firebase\JWT\JWT;
 include_once '../config/core.php';
 // get posted data
