@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <?php
 $start = microtime(true);
 // required headers
@@ -56,8 +55,6 @@ if($num>0){
     }
     // set response code - 200 OK
       http_response_code(200);
-      $_SESSION["start"] = $start;
-      $chofer->auditoria();
       // show products data in json format
       echo json_encode($chofer_arr);
   }
