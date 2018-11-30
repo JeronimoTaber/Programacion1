@@ -33,7 +33,6 @@ $user->password = $data->password;
 $user_exists = $user->userExists();
 
 // generate json web token
-
 include_once '../config/core.php';
 
 // check if email exists and if password is correct

@@ -58,5 +58,5 @@ else{
     http_response_code(400);
 
     // tell the user
-    echo json_encode(array("message" => "Unable to create sistema_transporte. Data is incomplete."));
+    echo json_encode(array("message" => "Unable to create user. Data is incomplete."));
 }

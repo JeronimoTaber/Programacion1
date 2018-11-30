@@ -54,7 +54,6 @@ class User{
     // check if given email exist in the database
 function userExists(){
 
-    // query to check if email exists
     $query = "SELECT user_id, username, password
             FROM " . $this->table_name . "
             WHERE username = ?
@@ -64,7 +63,7 @@ function userExists(){
     $stmt = $this->conn->prepare( $query );
 
     // sanitize
-    $this->email=strip_tags($this->username);
+    $this->username=strip_tags($this->username);
 
     // bind given email value
     $stmt->bindParam(1, $this->username);
