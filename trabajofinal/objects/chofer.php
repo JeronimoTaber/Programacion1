@@ -146,11 +146,17 @@ class Chofer{
 
         // select all query
         $query = "SELECT
-              *
-          FROM
-              " . $this->table_name . "
+               p.chofer_id, p.apellido, p.nombre, p.documento, p.email, c.vehiculo_id, p.sistema_id, p.created, p.updated, c.patente
+            FROM
+                (" . $this->table_name . " p)
+                INNER JOIN
+                vehiculo c
+                    ON p.vehiculo_id = c.vehiculo_id
+                INNER JOIN
+                sistema_transporte d
+                    ON p.sistema_id = d.sistema_id
           WHERE
-              apellido LIKE ? OR nombre LIKE ? OR documento LIKE ?
+              p.apellido LIKE ? OR p.nombre LIKE ? OR p.documento LIKE ?
           ORDER BY
               created DESC";
 

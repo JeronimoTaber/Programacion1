@@ -1,15 +1,16 @@
 <?php
+include '../user/validate_token.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   include 'create.php';
 exit;
 }
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-  if (empty($_GET)) {
-    include 'read.php';
-}
-  else{
+  if (count($_GET)>1) {
     include 'search.php';
-}
+  }
+  else{
+    include 'read.php';
+  }
 exit;
 }
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {

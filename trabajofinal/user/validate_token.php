@@ -13,7 +13,12 @@ include_once '../config/core.php';
 $data = json_decode(file_get_contents("php://input"));
 
 // get jwt
-$jwt=isset($data->jwt) ? $data->jwt : "";
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+  $jwt=isset($_GET["jwt"]) ? $_GET["jwt"] : "";
+}
+else {
+  $jwt=isset($data->jwt) ? $data->jwt : "";
+}
 
 // if jwt is not empty
 if($jwt){
@@ -25,12 +30,13 @@ if($jwt){
 
         // set response code
         http_response_code(200);
-        return true;
+
+        //return true;
         // show user details
-        echo json_encode(array(
-            "message" => "Access granted.",
-            "data" => $decoded->data
-        ));
+        //echo json_encode(array(
+          //  "message" => "Access granted.",
+            //"data" => $decoded->data
+        //));
 
     }
 
@@ -45,7 +51,7 @@ if($jwt){
           "message" => "Access denied.",
           "error" => $e->getMessage()
       ));
-      return false;
+      exit;
   }
 
 }
@@ -58,5 +64,5 @@ else{
 
     // tell the user access denied
     echo json_encode(array("message" => "Access denied."));
-    return false;
+    exit;
 }
