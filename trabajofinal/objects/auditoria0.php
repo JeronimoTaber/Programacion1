@@ -21,28 +21,25 @@ class Auditoria{
     function create(){
 
       $query = "INSERT INTO
-                  " . $this->table_name . "
-              SET
-                  fecha_acceso=:fecha_acceso, user=:user, response_time=:response_time, endpoint=:endpoint, created=:created";
-
+                " . $this->table_name . "
+                (fecha_acceso,user,response_time,endpoint)
+                values
+                (NOW(),'pepe',100,'/auditoria')";
       //$query = "INSERT INTO auditoria (fecha_acceso,user,response_time,endpoint) values (NOW(),'lala',23,'/chofer/read')";
       // prepare query statement
       $stmt = $this->conn->prepare($query);
 
       // sanitize
-      $this->fecha_acceso=strip_tags($this->fecha_acceso);
-      $this->user=strip_tags($this->user);
-      $this->response_time=strip_tags($this->response_time);
-      $this->endpoint=strip_tags($this->endpoint);
-      $this->created=strip_tags($this->created);
+      $this->user=strip_tags($this->fecha_acceso));
+      $this->datos=strip_tags($this->user));
+      $this->datos=strip_tags($this->time));
+      $this->datos=strip_tags($this->page));
+      $this->datos=strip_tags($this->created));
 
       // bind values
-      $stmt->bindParam(":fecha_acceso", $this->fecha_acceso);
       $stmt->bindParam(":user", $this->user);
-      $stmt->bindParam(":response_time", $this->response_time);
-      $stmt->bindParam(":endpoint", $this->endpoint);
-      $stmt->bindParam(":created", $this->created);
-echo json_encode($this->response_time);
+      $stmt->bindParam(":datos", $this->datos);
+
       $stmt->execute();
 
       return $stmt;

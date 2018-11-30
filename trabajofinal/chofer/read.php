@@ -1,5 +1,4 @@
 <?php
-$start = microtime(true);
 // required headers
 if ($_SERVER['HTTP_REFERER'] == "select.php") {
 header("Access-Control-Allow-Origin: *");

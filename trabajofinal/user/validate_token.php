@@ -1,5 +1,6 @@
 <?php
 // required headers
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
@@ -30,12 +31,13 @@ if($jwt){
 
         // set response code
         http_response_code(200);
-
+        $access="true";
+        $user=$decoded->data->username;
         //return true;
         // show user details
         //echo json_encode(array(
-          //  "message" => "Access granted.",
-            //"data" => $decoded->data
+        //    "message" => "Access granted.",
+        //    "data" => $decoded->data->username
         //));
 
     }
@@ -51,7 +53,8 @@ if($jwt){
           "message" => "Access denied.",
           "error" => $e->getMessage()
       ));
-      exit;
+      $access="false";
+      //exit;
   }
 
 }
@@ -64,5 +67,6 @@ else{
 
     // tell the user access denied
     echo json_encode(array("message" => "Access denied."));
-    exit;
+    $access="false";
+    //exit;
 }
