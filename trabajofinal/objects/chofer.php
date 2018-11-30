@@ -89,11 +89,17 @@ class Chofer{
         $stmt->bindParam(":created", $this->created);
 
         // execute query
-        if($stmt->execute()){
-            return true;
+        try{
+          $this->conn->beginTransaction();
+          $stmt->execute();
+          // execute query
+          if($this->conn->commit()){
+              return true;
+          }
+        }catch(Exception $e){
+          $this->conn->rollBack();
+          return false;
         }
-
-        return false;
 
     }
 
