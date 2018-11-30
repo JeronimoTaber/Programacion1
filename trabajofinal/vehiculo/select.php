@@ -1,5 +1,6 @@
 <?php
 include '../user/validate_token.php';
+$_SERVER['HTTP_REFERER'] = 'select.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   include 'create.php';
 exit;

@@ -1,5 +1,7 @@
 <?php
 // required headers
+if ($_SERVER['HTTP_REFERER'] == "select.php") {
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
@@ -76,4 +78,6 @@ else{
     // tell the user
     echo json_encode(array("message" => "Unable to create vehiculo. Data is incomplete."));
 }
-?>
+} else {
+  echo json_encode(array("message" => "Access trough select.php."));
+}

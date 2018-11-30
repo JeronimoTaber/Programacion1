@@ -1,5 +1,7 @@
 <?php
 // required headers
+if ($_SERVER['HTTP_REFERER'] == "select.php") {
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -75,4 +77,6 @@ else{
         array("message" => "No chofers found.")
     );
 }
-?>
+} else {
+  echo json_encode(array("message" => "Access trough select.php."));
+}
