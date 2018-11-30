@@ -1,74 +1,79 @@
 <?php
 // required headers
 //public function CreateChofer($data){
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-date_default_timezone_set('America/Argentina/Mendoza');
+if ($_SERVER['HTTP_REFERER'] == "select.php") {
 
-// get database connection
-include_once '../config/database.php';
+  header("Access-Control-Allow-Origin: *");
+  header("Content-Type: application/json; charset=UTF-8");
+  header("Access-Control-Allow-Methods: POST");
+  header("Access-Control-Max-Age: 3600");
+  header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+  date_default_timezone_set('America/Argentina/Mendoza');
 
-// instantiate product object
-include_once '../objects/chofer.php';
+  // get database connection
+  include_once '../config/database.php';
 
-$database = new Database();
-$db = $database->getConnection();
+  // instantiate product object
+  include_once '../objects/chofer.php';
 
-$chofer = new Chofer($db);
+  $database = new Database();
+  $db = $database->getConnection();
 
-// get posted data
-$data = json_decode(file_get_contents("php://input"));
+  $chofer = new Chofer($db);
 
-// make sure data is not empty
-if(
-    !empty($data->apellido) &&
-    !empty($data->nombre) &&
-    !empty($data->documento) &&
-    !empty($data->email) &&
-    !empty($data->vehiculo_id) &&
-    !empty($data->sistema_id)
-){
+  // get posted data
+  $data = json_decode(file_get_contents("php://input"));
 
-    // set product property values
-    $chofer->apellido = $data->apellido;
-    $chofer->nombre = $data->nombre;
-    $chofer->documento = $data->documento;
-    $chofer->email = $data->email;
-    $chofer->vehiculo_id = $data->vehiculo_id;
-    $chofer->sistema_id = $data->sistema_id;
-    $chofer->created = date('Y-m-d H:i:s');
+  // make sure data is not empty
+  if(
+      !empty($data->apellido) &&
+      !empty($data->nombre) &&
+      !empty($data->documento) &&
+      !empty($data->email) &&
+      !empty($data->vehiculo_id) &&
+      !empty($data->sistema_id)
+  ){
 
-    // create the product
-    if($chofer->create()){
+      // set product property values
+      $chofer->apellido = $data->apellido;
+      $chofer->nombre = $data->nombre;
+      $chofer->documento = $data->documento;
+      $chofer->email = $data->email;
+      $chofer->vehiculo_id = $data->vehiculo_id;
+      $chofer->sistema_id = $data->sistema_id;
+      $chofer->created = date('Y-m-d H:i:s');
 
-        // set response code - 201 created
-        http_response_code(201);
+      // create the product
+      if($chofer->create()){
 
-        // tell the user
-        echo json_encode(array("message" => "Chofer was created."));
-    }
+          // set response code - 201 created
+          http_response_code(201);
 
-    // if unable to create the product, tell the user
-    else{
+          // tell the user
+          echo json_encode(array("message" => "Chofer was created."));
+      }
 
-        // set response code - 503 service unavailable
-        http_response_code(503);
+      // if unable to create the product, tell the user
+      else{
 
-        // tell the user
-        echo json_encode(array("message" => "Unable to create chofer."));
-    }
+          // set response code - 503 service unavailable
+          http_response_code(503);
+
+          // tell the user
+          echo json_encode(array("message" => "Unable to create chofer."));
+      }
+  }
+
+  // tell the user data is incomplete
+  else{
+
+      // set response code - 400 bad request
+      http_response_code(400);
+
+      // tell the user
+      echo json_encode(array("message" => "Unable to create chofer. Data is incomplete."));
+  }
+  //}
+} else {
+  echo json_encode(array("message" => "Access trough select.php."));
 }
-
-// tell the user data is incomplete
-else{
-
-    // set response code - 400 bad request
-    http_response_code(400);
-
-    // tell the user
-    echo json_encode(array("message" => "Unable to create chofer. Data is incomplete."));
-}
-//}

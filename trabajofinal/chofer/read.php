@@ -1,6 +1,7 @@
 <?php
 $start = microtime(true);
 // required headers
+if ($_SERVER['HTTP_REFERER'] == "select.php") {
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -71,3 +72,6 @@ if($num>0){
           array("message" => "No products found.")
       );
   }
+} else {
+  echo json_encode(array("message" => "Access trough select.php."));
+}
