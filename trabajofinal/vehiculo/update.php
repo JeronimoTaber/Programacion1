@@ -21,7 +21,15 @@ $vehiculo = new Vehiculo($db);
 
 // get id of vehiculo to be edited
 $data = json_decode(file_get_contents("php://input"));
-
+if(
+    !empty($data->vehiculo_id) &&
+    !empty($data->patente) &&
+    !empty($data->anho_patente) &&
+    !empty($data->marca) &&
+    !empty($data->modelo) &&
+    !empty($data->sistema_id) &&
+    !empty($data->old_sistema_id)
+){
 // set ID property of vehiculo to be edited
 $vehiculo->vehiculo_id = $data->vehiculo_id;
 $vehiculo->patente = $data->patente;
@@ -50,6 +58,14 @@ else{
 
     // tell the user
     echo json_encode(array("message" => "Unable to update vehiculo."));
+}
+}
+else{
+    // set response code - 400 bad request
+    http_response_code(400);
+
+    // tell the user
+    echo json_encode(array("message" => "Unable to update vehiculo. Data is incomplete."));
 }
 } else {
   echo json_encode(array("message" => "Access trough select.php."));

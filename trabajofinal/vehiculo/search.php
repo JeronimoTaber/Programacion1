@@ -19,6 +19,7 @@ $vehiculo = new Vehiculo($db);
 
 // get keywords
 $keywords=isset($_GET["s"]) ? $_GET["s"] : "";
+echo json_encode($keywords);
 
 /*--------------------------------*/
 //si se deja $keywords=$_GET["s"];
@@ -54,7 +55,8 @@ if($num>0){
             "marca" => $marca,
             "modelo" => $modelo,
             "created" => $created,
-            "updated" => $updated
+            "updated" => $updated,
+            "nombre" => $nombre
         );
 
 

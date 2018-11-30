@@ -20,7 +20,15 @@ $chofer = new Chofer($db);
 
 // get id of product to be edited
 $data = json_decode(file_get_contents("php://input"));
-
+if(
+    !empty($data->chofer_id) &&
+    !empty($data->apellido) &&
+    !empty($data->nombre) &&
+    !empty($data->documento) &&
+    !empty($data->email) &&
+    !empty($data->vehiculo_id) &&
+    !empty($data->sistema_id)
+){
 // set ID property of product to be edited
 $chofer->chofer_id = $data->chofer_id;
 $chofer->apellido = $data->apellido;
@@ -48,6 +56,14 @@ else{
 
     // tell the user
     echo json_encode(array("message" => "Unable to update chofer."));
+}
+}
+else {
+  // set response code - 400 bad request
+  http_response_code(400);
+
+  // tell the user
+  echo json_encode(array("message" => "Unable to update chofer. Data is incomplete."));
 }
 } else {
   echo json_encode(array("message" => "Access trough select.php."));

@@ -47,7 +47,8 @@ if($num>0){
             "marca" => $marca,
             "modelo" => $modelo,
             "created" => $created,
-            "updated" => $updated
+            "updated" => $updated,
+            "nombre" => $nombre
         );
 
         array_push($vehiculo_arr["vehiculos"], $vehiculo_item);

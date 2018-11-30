@@ -37,9 +37,6 @@ if ($_SERVER['HTTP_REFERER'] == "select.php") {
 
           // set response code - 201 created
           http_response_code(201);
-
-          // tell the user
-          echo json_encode(array("message" => "Chofer was created."));
       }
 
       // if unable to create the product, tell the user
@@ -48,8 +45,6 @@ if ($_SERVER['HTTP_REFERER'] == "select.php") {
           // set response code - 503 service unavailable
           http_response_code(503);
 
-          // tell the user
-          echo json_encode(array("message" => "Unable to create chofer."));
       }
 
 

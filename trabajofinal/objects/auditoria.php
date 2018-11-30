@@ -42,31 +42,9 @@ class Auditoria{
       $stmt->bindParam(":response_time", $this->response_time);
       $stmt->bindParam(":endpoint", $this->endpoint);
       $stmt->bindParam(":created", $this->created);
-echo json_encode($this->response_time);
       $stmt->execute();
 
       return $stmt;
-    }
-
-    function read(){
-
-        // select all query
-        $query = "INSERT INTO auditoria (fecha_acceso,user,response_time,endpoint) values (NOW(),'pepe',100,'/auditoria') /*ON DUPLICATE KEY UPDATE fecha_acceso=NOW(), response_time=100, endpoint=/chofer/read*/";
-        //$query = "INSERT INTO auditoria (fecha_acceso,user,response_time,endpoint) values (NOW(),'lala',23,'/chofer/read')";
-        // prepare query statement
-        $stmt = $this->conn->prepare($query);
-
-        // sanitize
-        $this->user=htmlspecialchars(strip_tags($this->user));
-        $this->datos=htmlspecialchars(strip_tags($this->datos));
-
-        // bind values
-        $stmt->bindParam(":user", $this->user);
-        $stmt->bindParam(":datos", $this->datos);
-
-        $stmt->execute();
-
-        return $stmt;
     }
 
     function search($keywords){

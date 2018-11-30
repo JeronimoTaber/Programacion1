@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
 
 }
 else{
+  $page = "";
   $user = "Invalid_user";
   $time = microtime(true) - $start;
   include_once '../auditoria/create.php';

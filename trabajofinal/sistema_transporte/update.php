@@ -20,7 +20,11 @@ $sistema_transporte = new Sistema_transporte($db);
 
 // get id of sistema_transporte to be edited
 $data = json_decode(file_get_contents("php://input"));
-
+if(
+    !empty($data->sistema_id) &&
+    !empty($data->nombre) &&
+    !empty($data->pais_procedencia)
+){
 // set ID property of sistema_transporte to be edited
 $sistema_transporte->sistema_id = $data->sistema_id;
 $sistema_transporte->nombre = $data->nombre;
@@ -44,6 +48,14 @@ else{
 
     // tell the user
     echo json_encode(array("message" => "Unable to update sistema_transporte."));
+}
+}
+else {
+  // set response code - 400 bad request
+  http_response_code(400);
+
+  // tell the user
+  echo json_encode(array("message" => "Unable to update sistema_transporte. Data is incomplete."));
 }
 } else {
   echo json_encode(array("message" => "Access trough select.php."));

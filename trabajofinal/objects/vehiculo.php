@@ -159,7 +159,7 @@ class Vehiculo{
     //si se coloca inner en lugar de left muestra solo las compañias que tienen vehiculos regisitrados
         // select all query
         $query = "SELECT
-               v.vehiculo_id, v.patente, v.anho_patente, v.anho_fabricacion, v.marca, v.modelo, v.created, v.updated
+               v.vehiculo_id, v.patente, v.anho_patente, v.anho_fabricacion, v.marca, v.modelo, v.created, v.updated, t.nombre
             FROM
                 (" . $this->table_name . " v)
                LEFT JOIN
@@ -182,12 +182,18 @@ class Vehiculo{
 
         // select all query
         $query = "SELECT
-              *
-          FROM
-              " . $this->table_name . "
-          WHERE
-              vehiculo_id LIKE ? OR patente LIKE ? OR marca LIKE ?
-          ORDER BY
+               v.vehiculo_id, v.patente, v.anho_patente, v.anho_fabricacion, v.marca, v.modelo, v.created, v.updated, t.nombre
+            FROM
+                (" . $this->table_name . " v)
+                LEFT JOIN
+                sistema_vehiculo s
+                    ON v.vehiculo_id = s.vehiculo_id
+                LEFT JOIN
+                sistema_transporte t
+                        ON s.sistema_id = t.sistema_id
+                WHERE
+              v.vehiculo_id LIKE ?
+                ORDER BY
               created DESC";
 
         // prepare query statement
@@ -196,11 +202,12 @@ class Vehiculo{
         // sanitize
         $keywords=strip_tags($keywords);
         $keywords = "%{$keywords}%";
+        echo json_encode($keywords);
 
         // bind
         $stmt->bindParam(1, $keywords);
-        $stmt->bindParam(2, $keywords);
-        $stmt->bindParam(3, $keywords);
+        //$stmt->bindParam(2, $keywords);
+        //$stmt->bindParam(3, $keywords);
 
         // execute query
         $stmt->execute();
