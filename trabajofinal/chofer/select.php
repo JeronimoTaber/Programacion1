@@ -26,10 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
   include 'delete.php';
   $page = "/chofer/delete.php";
 }
-        $time = microtime(true) - $start;
-        
-
-        include_once '../auditoria/create.php';
+      $time = microtime(true) - $start;
+      include_once '../auditoria/create.php';
 
 }
 else{

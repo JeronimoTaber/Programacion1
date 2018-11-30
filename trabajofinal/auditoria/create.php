@@ -27,7 +27,7 @@ if ($_SERVER['HTTP_REFERER'] == "select.php") {
   // make sure data is not empty
 
       // set product property values
-      $auditoria->fecha_acceso = date('Y-m-d H:i:s');
+      $auditoria->fecha_acceso = date('Y-m-d');
       $auditoria->user = $user;
       $auditoria->response_time = $time;
       $auditoria->endpoint = $page;
