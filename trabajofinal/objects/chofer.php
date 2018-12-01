@@ -43,20 +43,6 @@ class Chofer{
 
         return $stmt;
     }
-    function auditoria(){
-        $time = microtime(true) - $_SESSION["start"];
-        // select all query
-        //echo $time;
-        $query = "INSERT INTO auditoria (fecha_acceso,user,response_time,endpoint) values (NOW(),'pepe',100,'/auditoria') /*ON DUPLICATE KEY UPDATE fecha_acceso=NOW(), response_time=100, endpoint=/chofer/read*/";
-        //$query = "INSERT INTO auditoria (fecha_acceso,user,response_time,endpoint) values (NOW(),'lala',23,'/chofer/read')";
-        // prepare query statement
-        $stmt = $this->conn->prepare($query);
-
-        // execute query
-        $stmt->execute();
-
-        return $stmt;
-    }
 
     // create product
     function create(){

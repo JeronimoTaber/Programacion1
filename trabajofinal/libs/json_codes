@@ -13,3 +13,19 @@ vehiculos
     {
     "sistema_id": ""
     }
+
+GET
+
+url         http://localhost/programacion1/trabajofinal/chofer/select.php?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9leGFtcGxlLm9yZyIsImF1ZCI6Imh0dHA6XC9cL2V4YW1wbGUuY29tIiwiaWF0IjoxMzU2OTk5NTI0LCJuYmYiOjEzNTcwMDAwMDAsImRhdGEiOnsidXNlcl9pZCI6IjMiLCJ1c2VybmFtZSI6Implcm94byJ9fQ.BhUWcyEXGV7uk_VUpKdukUY0FEujgfbYRXv9xwx6aqI&s=73
+body
+
+    {
+    "jwt": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9leGFtcGxlLm9yZyIsImF1ZCI6Imh0dHA6XC9cL2V4YW1wbGUuY29tIiwiaWF0IjoxNTQzNjE4MDQyLCJleHAiOjE1NDM2MTgwNjIsImRhdGEiOnsidXNlcl9pZCI6IjMiLCJ1c2VybmFtZSI6Implcm94byJ9fQ.xUqtaSFU-VQR9iq3M7PXPxMPW8tsdX9bsjhVVKjsdCY",
+    "chofer_id":"14",
+    "nombre":"Jeronimo",
+    "apellido":"Taber",
+    "documento":"39380965",
+    "email":"jerotaber@gmail.com",
+    "vehiculo_id":"67",
+    "sistema_id":"19"
+    }
