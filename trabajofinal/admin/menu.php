@@ -15,6 +15,13 @@ if($_SESSION['session'] != "true"){
   </head>
   <body>
     <div class="container-fluid" id="top">
+      <?php
+      if(isset($_GET['Message'])):
+        echo "<script>";
+        echo "alert('".$_GET['Message']."')";
+        echo "</script>";
+      endif;
+        ?>
       <h1>Admin</h1>
     </div>
     <div class="container-fluid" id="menu">

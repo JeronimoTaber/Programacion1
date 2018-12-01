@@ -23,8 +23,7 @@ if($_SESSION['session'] != "true"){
         <h1>User Create</h1>
     <div class="row">
         <div class="col-lg-12">
-          <form class="" action="main.php" method="POST" enctype="multipart/form-data">
-
+          <form class="" action="userDao.php" method="POST" enctype="multipart/form-data">
           <div class="box">
           <label for="username">username</label>
           <input type="text" name="username" value="" placeholder="username" class="password" />
@@ -32,6 +31,7 @@ if($_SESSION['session'] != "true"){
           <label for="password">password</label>
           <input type="password" name="password" value="" placeholder="password" class="password" />
           <br>
+          <input type="hidden" value="create" name="method" />
           <input type="submit" name="" value="Create" class="btn">
           </div> <!-- End Box -->
 

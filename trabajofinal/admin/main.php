@@ -8,7 +8,7 @@ $password = $_POST['password'];
 include_once '../config/database.php';
 
 // instantiate vehiculo object
-include_once 'object/admin.php';
+include_once 'objects/admin.php';
 
 // get database connection
 $database = new Database();
