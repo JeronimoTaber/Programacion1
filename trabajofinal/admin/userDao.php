@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="css/menus.css">
+  </head>
+  <body>
 <?php
 session_start();
 if($_SESSION['session'] != "true"){
@@ -50,6 +58,7 @@ if($_POST['method']=="create") {
     die;
   }
 }
+
 if($_POST['method']=="delete") {
 
   //$username = $_POST['user_id'];
@@ -135,3 +144,131 @@ if($_POST['method']=="update") {
     die;
   }
 }
+
+if($_POST['method']=="read") {
+
+  //$username = $_POST['username'];
+  //$password = $_POST['password'];
+  // files needed to connect to database
+  include_once '../config/database.php';
+
+  // instantiate vehiculo object
+  include_once 'objects/user.php';
+
+  // get database connection
+  $database = new Database();
+  $db = $database->getConnection();
+
+  // instantiate product object
+  $user = new User($db);
+
+  // set product property values
+
+  $stmt = $user->read();
+  $num = $stmt->rowCount();
+  // check if more than 0 record found
+  if($num>0){
+      ?>
+      <table>
+      <tr>
+      <th>user_id</th>
+      <th>Type</th>
+      <th>Username</th>
+      <th>Created</th>
+      <th>Updated</th>
+      </tr>
+      <?php
+      while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        echo "<tr>";
+        foreach ($row as $collum) {
+          echo "  <td>$collum</td>";
+
+        }
+        echo "</tr>";
+
+      }
+      echo "</table>";
+    }
+
+    else{
+
+        // set response code - 404 Not found
+        http_response_code(404);
+
+
+        // tell the user no users found
+        echo json_encode(
+            array("message" => "No users found.")
+        );
+    }
+}
+
+if($_POST['method']=="search") {
+
+  //$username = $_POST['username'];
+  //$password = $_POST['password'];
+  // files needed to connect to database
+  include_once '../config/database.php';
+
+  // instantiate vehiculo object
+  include_once 'objects/user.php';
+
+  // get database connection
+  $database = new Database();
+  $db = $database->getConnection();
+
+  // instantiate product object
+  $user = new User($db);
+  if(
+      !empty($_POST['keywords'])
+  ){
+  // set product property values
+  $keywords= $_POST['keywords'];
+  $stmt = $user->search($keywords);
+  $num = $stmt->rowCount();
+  // check if more than 0 record found
+  if($num>0){
+      ?>
+      <table>
+      <tr>
+      <th>user_id</th>
+      <th>Type</th>
+      <th>Username</th>
+      <th>Created</th>
+      <th>Updated</th>
+      </tr>
+      <?php
+      while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        echo "<tr>";
+        foreach ($row as $collum) {
+          echo "  <td>$collum</td>";
+
+        }
+        echo "</tr>";
+
+      }
+      echo "</table>";
+    }
+
+    else{
+
+        // set response code - 404 Not found
+        http_response_code(404);
+
+
+        // tell the user no users found
+        echo json_encode(
+            array("message" => "No users found.")
+        );
+    }
+  }else{
+    $Message = urlencode("Error: Data is incomplete");
+    header("Location:menu.php?Message=".$Message);
+    die;
+  }
+}
+
+?>
+
+</body>
+</html>

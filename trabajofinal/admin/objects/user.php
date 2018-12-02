@@ -8,6 +8,7 @@ class User{
 
     // object properties
     public $user_id;
+    public $type;
     public $username;
     public $password;
     public $created;
@@ -148,8 +149,51 @@ class User{
           //$this->conn->rollBack();
           return false;
         }
-
-
     }
+    function read(){
+
+        // select all query
+        $query = "SELECT
+               user_id,type,username,created,updated
+            FROM
+                (" . $this->table_name . ")
+            ORDER BY
+                created ASC";
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // execute query
+        $stmt->execute();
+
+        return $stmt;
+    }
+    function search($keywords){
+
+        // select all query
+        $query = "SELECT
+               user_id,type,username,created,updated
+            FROM
+                (" . $this->table_name . ")
+                WHERE
+                    user_id LIKE ? OR username LIKE ?
+                ORDER BY
+                    created ASC";
+
+              // prepare query statement
+              $stmt = $this->conn->prepare($query);
+
+
+              $keywords = "%{$keywords}%";
+
+              // bind
+              $stmt->bindParam(1, $keywords);
+              $stmt->bindParam(2, $keywords);
+
+
+              // execute query
+              $stmt->execute();
+
+              return $stmt;
+            }
 
   }

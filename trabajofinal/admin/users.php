@@ -90,17 +90,26 @@ if($_POST['user_menu']=="update") : ?>
 <?php endif;
 if($_POST['user_menu']=="read") : ?>
 <div class="row">
-  <div class="col-lg-12">
+  <div class="col-lg-6">
     <form class="" action="userDao.php" method="POST" enctype="multipart/form-data">
 
     <div class="box">
-    <label for="username">username</label>
-    <input type="text" name="username" value="" placeholder="username" class="password" />
-    <br>
-    <label for="password">password</label>
-    <input type="password" name="password" value="" placeholder="password" class="password" />
-    <br>
-    <input type="submit" name="" value="Sign In" class="btn">
+    <input type="submit" name="" value="Search" class="btn">
+    <label for="keywords">Keyword</label>
+    <input type="text" name="keywords" value="" placeholder="Keyword" class="password" />
+    <input type="hidden" value="search" name="method" />
+
+    </div> <!-- End Box -->
+
+    </form>
+  </div>
+  <div class="col-lg-6">
+    <form class="" action="userDao.php" method="POST" enctype="multipart/form-data">
+
+    <div class="box">
+
+      <input type="hidden" value="read" name="method" />
+    <input type="submit" name="" value="Read All" class="btn">
     </div> <!-- End Box -->
 
     </form>
