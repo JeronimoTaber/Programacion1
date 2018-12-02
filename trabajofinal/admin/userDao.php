@@ -1,6 +1,11 @@
 <?php
 session_start();
+if($_SESSION['session'] != "true"){
+  header('Location: index.php');
+  exit;
+}
 // constructor with $db as database connectionz
+if($_POST['method']=="create") {
 
 $username = $_POST['username'];
 $password = $_POST['password'];
@@ -35,4 +40,5 @@ else{
   $Message = urlencode("Error: User was not created");
   header("Location:menu.php?Message=".$Message);
   die;
+}
 }

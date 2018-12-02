@@ -6,25 +6,25 @@ $_SERVER['HTTP_REFERER'] = 'select.php';
 if($access == "true"){
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   include 'create.php';
-  $page = "/chofer/create.php";
+  $page = "/sistema_transporte/create.php";
 }
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
   if (count($_GET)>1) {
     include 'search.php';
-    $page = "/chofer/search.php";
+    $page = "/sistema_transporte/search.php";
   }
   else{
     include 'read.php';
-    $page = "/chofer/read.php";
+    $page = "/sistema_transporte/read.php";
   }
 }
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
   include 'update.php';
-  $page = "/chofer/update.php";
+  $page = "/sistema_transporte/update.php";
 }
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
   include 'delete.php';
-  $page = "/chofer/delete.php";
+  $page = "/sistema_transporte/delete.php";
 }
       $time = microtime(true) - $start;
       include_once '../auditoria/create.php';

@@ -8,22 +8,22 @@ $password = $_POST['password'];
 include_once '../config/database.php';
 
 // instantiate vehiculo object
-include_once 'objects/admin.php';
+include_once 'objects/user.php';
 
 // get database connection
 $database = new Database();
 $db = $database->getConnection();
 
 // instantiate product object
-$admin = new Admin($db);
+$user = new User($db);
 
 // set product property values
-$admin->username = $username;
-$admin->password = $password;
-$admin_exists = $admin->adminExists();
+$user->username = $username;
+$user->password = $password;
+$admin_exists = $user->adminExists();
 
 // check if email exists and if password is correct
-if($admin_exists && password_verify($password, $admin->password)){
+if($admin_exists && password_verify($password, $user->password)){
 
     // set response code
     $_SESSION["session"] = "true";

@@ -1,7 +1,7 @@
 <?php
 session_start();
 if($_SESSION['session'] != "true"){
-  header('Location: index.html');
+  header('Location: index.php');
   exit;
 }
 ?>
