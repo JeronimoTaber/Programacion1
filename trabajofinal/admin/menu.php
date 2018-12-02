@@ -31,21 +31,28 @@ if($_SESSION['session'] != "true"){
             <form method="POST" action="users.php">
               <button type="submit" class="button">Create</button>
               <input type="hidden" value="create" name="user_menu" />
+
             </form>
           </div>
           <div class="col-lg-3">
             <form method="POST" action="users.php">
               <button type="submit" class="button">Delete</button>
+              <input type="hidden" value="delete" name="user_menu" />
+
             </form>
           </div>
           <div class="col-lg-3">
             <form method="POST" action="users.php">
               <button type="submit" class="button">Update</button>
+              <input type="hidden" value="update" name="user_menu" />
+
             </form>
           </div>
           <div class="col-lg-3">
             <form method="POST" action="users.php">
               <button type="submit" class="button">Read</button>
+              <input type="hidden" value="read" name="user_menu" />
+
             </form>
           </div>
       </div>
@@ -63,6 +70,20 @@ if($_SESSION['session'] != "true"){
             </form>
           </div>
       </div>
+<br>
+<br>
+<div class="row">
+  <div class="col-lg-6">
+    <button id="btnlogout" name="btnlogout" onClick='location.href="?button1=1"'>Logout</button>
+  </div>
+</div>
+<?php
+if($_GET['button1']){logout();}
+function logout(){
+session_unset();
+header('Location: index.php');
+}
+?>
 </div>
   </body>
 </html>

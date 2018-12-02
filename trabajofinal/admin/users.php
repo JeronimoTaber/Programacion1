@@ -31,6 +31,11 @@ if($_SESSION['session'] != "true"){
           <label for="password">password</label>
           <input type="password" name="password" value="" placeholder="password" class="password" />
           <br>
+          <select name="type">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+          <br>
           <input type="hidden" value="create" name="method" />
           <input type="submit" name="" value="Create" class="btn">
           </div> <!-- End Box -->
@@ -38,12 +43,55 @@ if($_SESSION['session'] != "true"){
           </form>
         </div>
     </div>
-  <?php endif; ?>
-
-<?php if($_POST['user_menu']=="delete") : ?>
+  <?php endif;
+   if($_POST['user_menu']=="delete") : ?>
+  <h1>User Delete</h1>
 <div class="row">
   <div class="col-lg-12">
-    <form class="" action="main.php" method="POST" enctype="multipart/form-data">
+    <form class="" action="userDao.php" method='POST' enctype="multipart/form-data">
+    <div class="box">
+    <label for="user_id">user id</label>
+    <input type="text" name="user_id" value="" placeholder="user id" class="password" />
+    <input type="hidden" value="delete" name="method" />
+    <input type="submit" name="" value="Delete" class="btn">
+    </div> <!-- End Box -->
+
+    </form>
+  </div>
+</div>
+<?php endif;
+if($_POST['user_menu']=="update") : ?>
+<h1>User Update</h1>
+<div class="row">
+<div class="col-lg-12">
+  <form class="" action="userDao.php" method="POST" enctype="multipart/form-data">
+  <div class="box">
+  <label for="username">User id</label>
+  <input type="text" name="user_id" value="" placeholder="user_id" class="password" />
+  <br>
+  <label for="username">username</label>
+  <input type="text" name="username" value="" placeholder="username" class="password" />
+  <br>
+  <label for="password">password</label>
+  <input type="password" name="password" value="" placeholder="password" class="password" />
+  <br>
+  <select name="type">
+    <option value="user">User</option>
+    <option value="admin">Admin</option>
+  </select>
+  <br>
+  <input type="hidden" value="update" name="method" />
+  <input type="submit" name="" value="Create" class="btn">
+  </div> <!-- End Box -->
+
+  </form>
+</div>
+</div>
+<?php endif;
+if($_POST['user_menu']=="read") : ?>
+<div class="row">
+  <div class="col-lg-12">
+    <form class="" action="userDao.php" method="POST" enctype="multipart/form-data">
 
     <div class="box">
     <label for="username">username</label>
@@ -59,48 +107,6 @@ if($_SESSION['session'] != "true"){
   </div>
 </div>
 <?php endif; ?>
-
-<?php if($_POST['user_menu']=="update") : ?>
-<div class="row">
-  <div class="col-lg-12">
-    <form class="" action="main.php" method="POST" enctype="multipart/form-data">
-
-    <div class="box">
-    <label for="username">username</label>
-    <input type="text" name="username" value="" placeholder="username" class="password" />
-    <br>
-    <label for="password">password</label>
-    <input type="password" name="password" value="" placeholder="password" class="password" />
-    <br>
-    <input type="submit" name="" value="Sign In" class="btn">
-    </div> <!-- End Box -->
-
-    </form>
-  </div>
-</div>
-<?php endif; ?>
-
-<?php if($_POST['user_menu']=="read") : ?>
-<div class="row">
-  <div class="col-lg-12">
-    <form class="" action="main.php" method="POST" enctype="multipart/form-data">
-
-    <div class="box">
-    <label for="username">username</label>
-    <input type="text" name="username" value="" placeholder="username" class="password" />
-    <br>
-    <label for="password">password</label>
-    <input type="password" name="password" value="" placeholder="password" class="password" />
-    <br>
-    <input type="submit" name="" value="Sign In" class="btn">
-    </div> <!-- End Box -->
-
-    </form>
-  </div>
-</div>
-<?php endif; ?>
-
-
 </div>
   </body>
 </html>
