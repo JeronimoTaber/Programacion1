@@ -74,9 +74,9 @@ class Auditoria{
                     FROM
                         (" . $this->table_name . ")
                     WHERE
-                    fecha_acceso
+                      fecha_acceso
                     BETWEEN
-                    CAST(? AS DATE) AND CAST(? AS DATE)
+                      CAST(? AS DATE) AND CAST(? AS DATE)
                     ORDER BY
                         created DESC";
                 // prepare query statement

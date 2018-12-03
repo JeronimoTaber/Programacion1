@@ -9,30 +9,29 @@ if($_SESSION['session'] != "true"){
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Menu Admin</title>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="css/menus.css">
   </head>
   <body>
     <div class="container-fluid" id="top">
       <?php
-      if(isset($_GET['Message'])):
-        echo "<script>";
-        echo "alert('".$_GET['Message']."')";
-        echo "</script>";
-      endif;
-        ?>
+        if(isset($_GET['Message'])):
+            echo "<script>";
+            echo "alert('".$_GET['Message']."')";
+            echo "</script>";
+        endif;
+      ?>
       <h1>Admin</h1>
     </div>
     <div class="container-fluid" id="menu">
-        <h2>Users</h2><br>
+      <h2>Users</h2><br>
       <div class="row">
           <div class="col-lg-3">
             <!-- Envia a create de userCRUD-->
             <form method="POST" action="userCRUD.php">
               <button type="submit" class="button">Create</button>
               <input type="hidden" value="create" name="user_menu" />
-
             </form>
           </div>
           <div class="col-lg-3">
@@ -40,7 +39,6 @@ if($_SESSION['session'] != "true"){
             <form method="POST" action="userCRUD.php">
               <button type="submit" class="button">Delete</button>
               <input type="hidden" value="delete" name="user_menu" />
-
             </form>
           </div>
           <div class="col-lg-3">
@@ -48,7 +46,6 @@ if($_SESSION['session'] != "true"){
             <form method="POST" action="userCRUD.php">
               <button type="submit" class="button">Update</button>
               <input type="hidden" value="update" name="user_menu" />
-
             </form>
           </div>
           <div class="col-lg-3">
@@ -64,12 +61,14 @@ if($_SESSION['session'] != "true"){
       <div class="row">
 
           <div class="col-lg-6">
+            <!-- Envia a read y search de auditoriaCRUD-->
             <form method="POST" action="auditoriaCRUD.php">
               <button type="submit" class="button">Read</button>
               <input type="hidden" value="read" name="user_menu" />
             </form>
           </div>
           <div class="col-lg-6">
+            <!-- Envia a file de auditoriaCRUD-->
             <form method="POST" action="auditoriaCRUD.php">
               <button type="submit" class="button">File</button>
               <input type="hidden" value="file" name="user_menu" />
@@ -78,6 +77,7 @@ if($_SESSION['session'] != "true"){
       </div>
 <br>
 <br>
+<!-- Boton de logout-->
 <div class="row">
   <div class="col-lg-6">
     <button id="btnlogout" name="btnlogout" onClick='location.href="?button1=1"'>Logout</button>
@@ -91,6 +91,8 @@ session_unset();
 header('Location: index.php');
 }
 ?>
+<!-- fin boton-->
+
 </div>
   </body>
 </html>
