@@ -15,7 +15,7 @@ class Vehiculo{
     public $modelo;
     public $created;
     public $updated;
-    public $sistema_id;
+    public $sistema_id = [];
     public $old_sistema_id;
 
     // constructor with $db as database connection
@@ -76,6 +76,7 @@ class Vehiculo{
         $data = $stmt2->fetch(PDO::FETCH_ASSOC);
         $this->vehiculo_id = $data["vehiculo_id"];
 
+
         for($i=0; $i<count($this->sistema_id); $i++){
                     $aux = $this->sistema_id[$i];
                     $stmt3->bindParam(":sistema_id", $aux);
@@ -88,7 +89,7 @@ class Vehiculo{
             return true;
         };
       }catch(Exception $e){
-        //echo json_encode("asdsada");
+        echo json_encode($e->getMessage());
         $this->conn->rollBack();
         return false;
       }
@@ -192,7 +193,7 @@ class Vehiculo{
                 sistema_transporte t
                         ON s.sistema_id = t.sistema_id
                 WHERE
-              v.vehiculo_id LIKE ?
+              v.vehiculo_id LIKE ? OR t.nombre LIKE ?
                 ORDER BY
               created DESC";
 
@@ -202,11 +203,10 @@ class Vehiculo{
         // sanitize
         $keywords=strip_tags($keywords);
         $keywords = "%{$keywords}%";
-        echo json_encode($keywords);
 
         // bind
         $stmt->bindParam(1, $keywords);
-        //$stmt->bindParam(2, $keywords);
+        $stmt->bindParam(2, $keywords);
         //$stmt->bindParam(3, $keywords);
 
         // execute query

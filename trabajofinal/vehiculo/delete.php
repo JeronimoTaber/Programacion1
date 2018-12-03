@@ -17,35 +17,35 @@ include_once '../objects/vehiculo.php';
 $database = new Database();
 $db = $database->getConnection();
 
-// prepare chofer object
+// prepare vehiculo object
 //$sistema_vehiculo = new Sistema_vehiculo($db);
 $vehiculo = new Vehiculo($db);
 
-// get chofer id
+// get vehiculo id
 $data = json_decode(file_get_contents("php://input"));
 
-// set chofer id to be deleted
+// set vehiculo id to be deleted
 $vehiculo->vehiculo_id = $data->vehiculo_id;
 //$sistema_vehiculo->vehiculo_id = $data->vehiculo_id;
 
-// delete the chofer
+// delete the vehiculo
 if($vehiculo->delete()){
 
     // set response code - 200 ok
     http_response_code(200);
 
     // tell the user
-    echo json_encode(array("message" => "chofer was deleted."));
+    echo json_encode(array("message" => "vehiculo was deleted."));
 }
 
-// if unable to delete the chofer
+// if unable to delete the vehiculo
 else{
 
     // set response code - 503 service unavailable
     http_response_code(503);
 
     // tell the user
-    echo json_encode(array("message" => "Unable to delete chofer."));
+    echo json_encode(array("message" => "Unable to delete vehiculo."));
 }
 } else {
   echo json_encode(array("message" => "Access trough select.php."));

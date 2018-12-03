@@ -132,6 +132,9 @@ if ($_POST['method'] == "file") {
             $auditoria->from = $_POST['from'];
             $auditoria->to   = $_POST['to'];
             $file            = "../archivos/" . $_POST['file'] . ".txt";
+            if (file_exists($file)) {
+              unlink($file);
+            }
             $archivo         = fopen($file, "w+");
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 foreach ($row as $collum) {
@@ -149,7 +152,7 @@ if ($_POST['method'] == "file") {
         else {
             // set response code - 404 Not found
             http_response_code(404);
-            $Message = urlencode("Error exporting file");
+            $Message = urlencode("Empty set,no entries in that date");
             header("Location:menu.php?Message=" . $Message);
             die;
         }

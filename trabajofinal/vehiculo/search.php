@@ -76,7 +76,7 @@ else{
 
     // tell the user no chofers found
     echo json_encode(
-        array("message" => "No chofers found.")
+        array("message" => "No vehiculo found.")
     );
 }
 } else {

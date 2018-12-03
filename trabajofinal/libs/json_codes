@@ -1,13 +1,17 @@
 vehiculos
   create
-    {
-    "patente": "SSS465",
-    "anho_patente": "1934",
-    "anho_fabricacion": "2443",
-    "marca": "sad",
-    "modelo": "et",
-    "sistema_id": ["9","14"]
-    }
+  {
+  "jwt": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9leGFtcGxlLm9yZyIsImF1ZCI6Imh0dHA6XC9cL2V4YW1wbGUuY29tIiwiaWF0IjoxNTQzODcxNTY1LCJleHAiOjE1NDM4ODE1NjUsImRhdGEiOnsidXNlcl9pZCI6IjIiLCJ1c2VybmFtZSI6Implcm9uaW1vIn19.SNG7UUJaxr2WqPSyJAi88IQC1ZWvFgu_m4KFctuaBBQ",
+  "vehiculo_id":"75",
+  "patente":"LQL345",
+  "anho_patente":"1996",
+  "anho_fabricacion":"1990",
+  "marca":"audi",
+  "modelo":"B4",
+  "sistema_id":["21","10"],
+  "old_sistema_id":"19"
+  }
+
 
   delete
     {
