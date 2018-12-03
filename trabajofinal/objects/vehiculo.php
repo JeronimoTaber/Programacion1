@@ -266,4 +266,38 @@ class Vehiculo{
             return false;
           }
 }
+function newrelation(){
+    // query to insert record
+            $query = "INSERT INTO
+                        " . $this->table_name_sis . "
+                    SET
+                        vehiculo_id=:vehiculo_id, sistema_id=:sistema_id, created=:created";
+
+            // prepare query
+            $stmt = $this->conn->prepare($query);
+            $this->vehiculo_id=strip_tags($this->vehiculo_id);
+            $this->created=strip_tags($this->created);
+
+            // bind values
+            $stmt->bindParam(":vehiculo_id", $this->vehiculo_id);
+            $stmt->bindParam(":sistema_id", $this->new_sistema_id);
+            $stmt->bindParam(":created", $this->created);
+  try{
+    $this->conn->beginTransaction();
+
+                //$stmt->bindParam(":sistema_id",$this->sistema_id ;
+                $stmt->execute();
+
+
+
+    // execute query
+    if($this->conn->commit()){
+        return true;
+    };
+  }catch(Exception $e){
+    echo json_encode($e->getMessage());
+    $this->conn->rollBack();
+    return false;
+  }
+}
 }

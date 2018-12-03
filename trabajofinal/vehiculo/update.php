@@ -39,7 +39,14 @@ $vehiculo->marca = $data->marca;
 $vehiculo->modelo = $data->modelo;
 $vehiculo->sistema_id = $data->sistema_id;
 $vehiculo->old_sistema_id = $data->old_sistema_id;
+if(
+    !empty($data->new_sistema_id)
+){
+  $vehiculo->new_sistema_id = $data->new_sistema_id;
+  $vehiculo->created = date('Y-m-d H:i:s');
 
+  $vehiculo->newrelation();
+}
 // update the vehiculo
 if($vehiculo->update()){
 
