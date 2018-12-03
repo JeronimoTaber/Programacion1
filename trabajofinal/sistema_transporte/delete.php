@@ -9,29 +9,28 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 // include database and object file
 include_once '../config/database.php';
-include_once '../objects/chofer.php';
+include_once '../objects/sistema_transporte.php';
 
 // get database connection
 $database = new Database();
 $db = $database->getConnection();
 
 // prepare chofer object
-$chofer = new Chofer($db);
+$sistema_transporte = new Sistema_transporte($db);
 
 // get chofer id
 $data = json_decode(file_get_contents("php://input"));
 
 // set chofer id to be deleted
-$chofer->chofer_id = $data->chofer_id;
+$sistema_transporte->sistema_id = $data->sistema_id;
 
 // delete the chofer
-if($chofer->delete()){
-
+if($sistema_transporte->delete()){
     // set response code - 200 ok
     http_response_code(200);
 
     // tell the user
-    echo json_encode(array("message" => "Chofer was deleted."));
+    echo json_encode(array("message" => "chofer was deleted."));
 }
 
 // if unable to delete the chofer
@@ -41,7 +40,7 @@ else{
     http_response_code(503);
 
     // tell the user
-    echo json_encode(array("message" => "Unable to delete Chofer."));
+    echo json_encode(array("message" => "Unable to delete chofer."));
 }
 } else {
   echo json_encode(array("message" => "Access trough select.php."));

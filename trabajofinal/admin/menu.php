@@ -28,32 +28,32 @@ if($_SESSION['session'] != "true"){
         <h2>Users</h2><br>
       <div class="row">
           <div class="col-lg-3">
-            <!-- Envia a create de CRUD-->
-            <form method="POST" action="crud.php">
+            <!-- Envia a create de userCRUD-->
+            <form method="POST" action="userCRUD.php">
               <button type="submit" class="button">Create</button>
               <input type="hidden" value="create" name="user_menu" />
 
             </form>
           </div>
           <div class="col-lg-3">
-            <!-- Envia a delete de CRUD-->
-            <form method="POST" action="crud.php">
+            <!-- Envia a delete de userCRUD-->
+            <form method="POST" action="userCRUD.php">
               <button type="submit" class="button">Delete</button>
               <input type="hidden" value="delete" name="user_menu" />
 
             </form>
           </div>
           <div class="col-lg-3">
-            <!-- Envia a update de CRUD-->
-            <form method="POST" action="crud.php">
+            <!-- Envia a update de userCRUD-->
+            <form method="POST" action="userCRUD.php">
               <button type="submit" class="button">Update</button>
               <input type="hidden" value="update" name="user_menu" />
 
             </form>
           </div>
           <div class="col-lg-3">
-            <!-- Envia a read y search de CRUD-->
-            <form method="POST" action="crud.php">
+            <!-- Envia a read y search de userCRUD-->
+            <form method="POST" action="userCRUD.php">
               <button type="submit" class="button">Read</button>
               <input type="hidden" value="read" name="user_menu" />
 
