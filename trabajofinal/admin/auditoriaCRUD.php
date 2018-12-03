@@ -51,14 +51,18 @@ if($_SESSION['session'] != "true"){
       <?php endif; ?>
       <?php if($_POST['user_menu']=="file") : ?>
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
           <form class="" action="auditoriaDAO.php" method="POST" enctype="multipart/form-data">
 
           <div class="box">
-          <input type="submit" name="" value="Export" class="btn">
           <label for="file">File</label>
           <input type="text" name="file" value="" placeholder="File" class="password" />
+          <label for="from">From</label>
+          <input type="date" name="from" value="" class="password" />
+          <label for="to">To</label>
+          <input type="date" name="to" value="" class="password" />
           <input type="hidden" value="file" name="method" />
+          <input type="submit" name="" value="Export" class="btn">
 
           </div> <!-- End Box -->
 

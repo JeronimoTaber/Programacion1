@@ -129,13 +129,20 @@ if($_POST['method']=="search") {
 }
 if($_POST['method']=="file") {
 
-
-  $stmt = $auditoria->read();
+  if(
+      !empty($_POST['file']) &&
+      !empty($_POST['from']) &&
+      !empty($_POST['to'])
+  ){
+    $auditoria->from = $_POST['from'];
+    $auditoria->to  = $_POST['to'];
+  $stmt = $auditoria->date();
   $num = $stmt->rowCount();
   // check if more than 0 record found
   if($num>0){
-
-    $file="../".$_POST['file'].".txt";
+    $auditoria->from = $_POST['from'];
+    $auditoria->to = $_POST['to'];
+    $file="../archivos/".$_POST['file'].".txt";
       $archivo=fopen($file,"w+");
 
       while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -162,10 +169,16 @@ if($_POST['method']=="file") {
         header("Location:menu.php?Message=".$Message);
         die;
     }
+  }else{
+      $Message = urlencode("Error: Data is incomplete");
+      header("Location:menu.php?Message=".$Message);
+      die;
+    }
     ?>
       <br><br>
       <button onclick="location.href = 'menu.php';" id="myButton" class="float-left submit-button" >Home</button>
     <?php
+
 }
 ?>
 

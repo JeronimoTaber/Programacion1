@@ -13,6 +13,8 @@ class Auditoria{
     public $response_time;
     public $endpoint;
     public $created;
+    public $from;
+    public $to;
 
     // constructor
     public function __construct($db){
@@ -64,6 +66,27 @@ class Auditoria{
               $stmt->execute();
 
               return $stmt;
+            }
+    function date(){
+      // select all query
+        $query = "SELECT
+                       *
+                    FROM
+                        (" . $this->table_name . ")
+                    WHERE
+                    fecha_acceso
+                    BETWEEN
+                    CAST(? AS DATE) AND CAST(? AS DATE)
+                    ORDER BY
+                        created DESC";
+                // prepare query statement
+                $stmt = $this->conn->prepare($query);
+                $stmt->bindParam(1, $this->from);
+                $stmt->bindParam(2, $this->to);
+                // execute query
+                $stmt->execute();
+
+                return $stmt;
             }
 
   }
