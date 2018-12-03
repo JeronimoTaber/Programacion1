@@ -201,6 +201,10 @@ if($_POST['method']=="read") {
             array("message" => "No users found.")
         );
     }
+    ?>
+      <br><br>
+      <button onclick="location.href = 'menu.php';" id="myButton" class="float-left submit-button" >Home</button>
+    <?php
 }
 
 if($_POST['method']=="search") {
@@ -266,6 +270,10 @@ if($_POST['method']=="search") {
     header("Location:menu.php?Message=".$Message);
     die;
   }
+  ?>
+    <br><br>
+    <button onclick="location.href = 'menu.php';" id="myButton" class="float-left submit-button" >Home</button>
+  <?php
 }
 
 ?>

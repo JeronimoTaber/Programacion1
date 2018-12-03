@@ -11,7 +11,7 @@ if($_SESSION['session'] != "true"){
     <meta charset="utf-8">
     <title></title>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/menus.css">
   </head>
   <body>
     <div class="container-fluid" id="top">
@@ -41,6 +41,8 @@ if($_SESSION['session'] != "true"){
           </div> <!-- End Box -->
 
           </form>
+          <br><br>
+              <button onclick="location.href = 'menu.php';" id="myButton" class="float-left submit-button" >Home</button>
         </div>
     </div>
   <?php endif;
@@ -57,6 +59,8 @@ if($_SESSION['session'] != "true"){
     </div> <!-- End Box -->
 
     </form>
+    <br><br>
+        <button onclick="location.href = 'menu.php';" id="myButton" class="float-left submit-button" >Home</button>
   </div>
 </div>
 <?php endif;
@@ -81,10 +85,12 @@ if($_POST['user_menu']=="update") : ?>
   </select>
   <br>
   <input type="hidden" value="update" name="method" />
-  <input type="submit" name="" value="Create" class="btn">
+  <input type="submit" name="" value="Update" class="btn">
   </div> <!-- End Box -->
 
   </form>
+  <br><br>
+      <button onclick="location.href = 'menu.php';" id="myButton" class="float-left submit-button" >Home</button>
 </div>
 </div>
 <?php endif;
@@ -102,6 +108,8 @@ if($_POST['user_menu']=="read") : ?>
     </div> <!-- End Box -->
 
     </form>
+    <br><br>
+        <button onclick="location.href = 'menu.php';" id="myButton" class="float-left submit-button" >Home</button>
   </div>
   <div class="col-lg-6">
     <form class="" action="userDao.php" method="POST" enctype="multipart/form-data">

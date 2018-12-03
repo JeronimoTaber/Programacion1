@@ -26,47 +26,47 @@
   </body>
 </html>
 <?php
-session_start();
-// constructor with $db as database connectionz
-if(!empty($_POST['username']) && !empty($_POST['password'])) {
+  session_start();
+  // constructor with $db as database connectionz
+  if(!empty($_POST['username']) && !empty($_POST['password'])) {
 
-$username = $_POST['username'];
-$password = $_POST['password'];
-// files needed to connect to database
-include_once '../config/database.php';
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  // files needed to connect to database
+  include_once '../config/database.php';
 
-// instantiate vehiculo object
-include_once 'objects/user.php';
+  // instantiate vehiculo object
+  include_once 'objects/user.php';
 
-// get database connection
-$database = new Database();
-$db = $database->getConnection();
+  // get database connection
+  $database = new Database();
+  $db = $database->getConnection();
 
-// instantiate product object
-$user = new User($db);
+  // instantiate product object
+  $user = new User($db);
 
-// set product property values
-$user->username = $username;
-$user->password = $password;
-$admin_exists = $user->adminExists();
+  // set product property values
+  $user->username = $username;
+  $user->password = $password;
+  $admin_exists = $user->adminExists();
 
-// check if email exists and if password is correct
-if($admin_exists && password_verify($password, $user->password)){
+  // check if email exists and if password is correct
+  if($admin_exists && password_verify($password, $user->password)){
 
-    // set response code
-    $_SESSION["session"] = "true";
-      header('Location: menu.php');
-      exit;
+      // set response code
+      $_SESSION["session"] = "true";
+        header('Location: menu.php');
+        exit;
 
-}
+  }
 
-else{
+  else{
 
-   // set response code
-   http_response_code(401);
+     // set response code
+     http_response_code(401);
 
-   // tell the user login failed
-   echo "Login failed.";
-}
-}
+     // tell the user login failed
+     echo "Login failed.";
+  }
+  }
 ?>
