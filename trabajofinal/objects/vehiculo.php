@@ -223,15 +223,10 @@ class Vehiculo{
                   patente=:patente, anho_patente=:anho_patente, anho_fabricacion=:anho_fabricacion, marca=:marca, modelo=:modelo
                   WHERE
                       vehiculo_id = :vehiculo_id";
-                  $query2 = "DELETE FROM
-                              " . $this->table_name_sis . "
-                              WHERE
-                                  vehiculo_id LIKE ?
-                              AND NOT
-                                  (sistema_id LIKE ? OR sistema_id LIKE ? OR sistema_id LIKE ?)";
+
                   $sentence = "sistema_id LIKE ?";
                   for($i=0; $i<count($this->sistema_id)-1; $i++){
-                    $sentence = $sentence." OR sistema_id LIKE ?";
+                    $sentence = $sentence." OR sistema_id NOT LIKE ?";
                       }
                   $query2 = "DELETE FROM
                                 " . $this->table_name_sis . "
@@ -239,7 +234,7 @@ class Vehiculo{
                                 vehiculo_id LIKE ?
                             AND NOT
                                 (".$sentence.")";
-
+                                echo json_encode($query2);
                   $query3 = "INSERT IGNORE INTO
                               " . $this->table_name_sis . "
                             SET
@@ -278,8 +273,9 @@ class Vehiculo{
             for($i=0; $i<count($this->sistema_id); $i++){
                 $aux = $this->sistema_id[$i];
                 $stmt2->bindParam($i+2, $aux);
+
                 }
-                $stmt2->execute();
+$stmt2->execute();
             for($i=0; $i<count($this->sistema_id); $i++){
                 $aux = $this->sistema_id[$i];
                 $stmt3->bindParam(":sistema_id", $aux);
