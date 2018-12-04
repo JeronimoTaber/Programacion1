@@ -15,7 +15,7 @@ class Vehiculo{
     public $modelo;
     public $created;
     public $updated;
-    public $sistema_id = [];
+    public $sistema_id;
     public $old_sistema_id;
 
     // constructor with $db as database connection
@@ -193,7 +193,7 @@ class Vehiculo{
                 sistema_transporte t
                         ON s.sistema_id = t.sistema_id
                 WHERE
-              v.vehiculo_id LIKE ? OR t.nombre LIKE ?
+              v.vehiculo_id LIKE ? OR v.patente LIKE ? OR t.nombre LIKE ?
                 ORDER BY
               created DESC";
 
@@ -207,7 +207,7 @@ class Vehiculo{
         // bind
         $stmt->bindParam(1, $keywords);
         $stmt->bindParam(2, $keywords);
-        //$stmt->bindParam(3, $keywords);
+        $stmt->bindParam(3, $keywords);
 
         // execute query
         $stmt->execute();

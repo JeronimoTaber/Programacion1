@@ -25,6 +25,7 @@ if(
     !empty($data->vehiculo_id) &&
     !empty($data->patente) &&
     !empty($data->anho_patente) &&
+    !empty($data->anho_fabricacion) &&
     !empty($data->marca) &&
     !empty($data->modelo) &&
     !empty($data->sistema_id) &&
