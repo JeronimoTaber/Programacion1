@@ -226,7 +226,7 @@ class Vehiculo{
 
                   $sentence = "sistema_id LIKE ?";
                   for($i=0; $i<count($this->sistema_id)-1; $i++){
-                    $sentence = $sentence." OR sistema_id NOT LIKE ?";
+                    $sentence = $sentence." OR sistema_id LIKE ?";
                       }
                   $query2 = "DELETE FROM
                                 " . $this->table_name_sis . "
