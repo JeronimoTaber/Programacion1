@@ -39,8 +39,6 @@ include_once '../config/core.php';
 if($user_exists && password_verify($data->password, $user->password)){
 
     $token = array(
-       "iss" => $iss,
-       "aud" => $aud,
        "iat" => $iat,
        "exp" => $exp,
        "data" => array(

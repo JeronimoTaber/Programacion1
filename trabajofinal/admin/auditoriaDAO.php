@@ -56,7 +56,6 @@ if ($_POST['method'] == "read") {
     }
 
     else {
-
         // set response code - 404 Not found
         http_response_code(404);
         // tell the user no users found
@@ -122,7 +121,7 @@ if ($_POST['method'] == "search") {
 
 //metodo transfer to file de auditoria
 if ($_POST['method'] == "file") {
-    if (!empty($_POST['file']) && !empty($_POST['from']) && !empty($_POST['to'])) {
+    if (!empty($_POST['from']) && !empty($_POST['to'])) {
         $auditoria->from = $_POST['from'];
         $auditoria->to   = $_POST['to'];
         $stmt            = $auditoria->date();
@@ -131,7 +130,7 @@ if ($_POST['method'] == "file") {
         if ($num > 0) {
             $auditoria->from = $_POST['from'];
             $auditoria->to   = $_POST['to'];
-            $file            = "../archivos/" . $_POST['file'] . ".txt";
+            $file            = "../archivos/auditoria.txt";
             if (file_exists($file)) {
               unlink($file);
             }
@@ -144,9 +143,9 @@ if ($_POST['method'] == "file") {
                 fwrite($archivo, ",");
             }
             fclose($archivo);
-            $Message = urlencode("File exported");
-            header("Location:menu.php?Message=" . $Message);
-            die;
+            header('Location: download.php');
+
+
         }
 
         else {
