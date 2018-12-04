@@ -224,17 +224,16 @@ class Vehiculo{
                   WHERE
                       vehiculo_id = :vehiculo_id";
 
-                  $sentence = "sistema_id LIKE ?";
+                  $sentence = "?";
                   for($i=0; $i<count($this->sistema_id)-1; $i++){
-                    $sentence = $sentence." OR sistema_id LIKE ?";
+                    $sentence = $sentence.",?";
                       }
                   $query2 = "DELETE FROM
                                 " . $this->table_name_sis . "
                             WHERE
                                 vehiculo_id LIKE ?
-                            AND NOT
+                            AND sistema_id NOT IN
                                 (".$sentence.")";
-                                echo json_encode($query2);
                   $query3 = "INSERT IGNORE INTO
                               " . $this->table_name_sis . "
                             SET
@@ -266,14 +265,9 @@ class Vehiculo{
           try{
             $this->conn->beginTransaction();
             $stmt->execute();
-            //$stmt2->bindParam(2,$this->sistema_id[0]);
-            //$stmt2->bindParam(3,$this->sistema_id[1]);
-            //$stmt2->bindParam(4,$this->sistema_id[2]);
-            //$stmt2->execute();
-            for($i=0; $i<count($this->sistema_id); $i++){
-                $aux = $this->sistema_id[$i];
-                $stmt2->bindParam($i+2, $aux);
 
+            for($i=0; $i<count($this->sistema_id); $i++){
+                $stmt2->bindParam($i+2, $this->sistema_id[$i]);
                 }
 $stmt2->execute();
             for($i=0; $i<count($this->sistema_id); $i++){
