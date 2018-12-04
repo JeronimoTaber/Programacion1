@@ -223,45 +223,47 @@ class Vehiculo{
                   patente=:patente, anho_patente=:anho_patente, anho_fabricacion=:anho_fabricacion, marca=:marca, modelo=:modelo
                   WHERE
                       vehiculo_id = :vehiculo_id";
-          $query2 = "UPDATE
-                      (" . $this->table_name_sis . ")
-                  SET
-                  sistema_id = :sistema_id
-                  WHERE
-                      vehiculo_id=:vehiculo_id AND sistema_id=:old_sistema_id ";
+                      $query2 = "DELETE FROM
+                                  " . $this->table_name_sis . "
+                              WHERE
+                                  vehiculo_id LIKE ?
+                                  AND NOT
+                                  (sistema_id LIKE ? OR sistema_id LIKE ? OR sistema_id LIKE ?)";
 
-          // prepare query statement
-          $stmt = $this->conn->prepare($query);
-          $stmt2 = $this->conn->prepare($query2);
-          // sanitize
-          $this->vehiculo_id=strip_tags($this->vehiculo_id);
-          $this->patente=strip_tags($this->patente);
-          $this->anho_patente=strip_tags($this->anho_patente);
-          $this->anho_fabricacion=strip_tags($this->anho_fabricacion);
-          $this->marca=strip_tags($this->marca);
-          $this->modelo=strip_tags($this->modelo);
-          $this->sistema_id=strip_tags($this->sistema_id);
-          $this->old_sistema_id=strip_tags($this->old_sistema_id);
-          // bind values
-          $stmt->bindParam(":vehiculo_id", $this->vehiculo_id);
-          $stmt->bindParam(":patente", $this->patente);
-          $stmt->bindParam(":anho_patente", $this->anho_patente);
-          $stmt->bindParam(":anho_fabricacion", $this->anho_fabricacion);
-          $stmt->bindParam(":marca", $this->marca);
-          $stmt->bindParam(":modelo", $this->modelo);
-          $stmt2->bindParam(":vehiculo_id", $this->vehiculo_id);
-          $stmt2->bindParam(":sistema_id", $this->sistema_id);
-          $stmt2->bindParam(":old_sistema_id", $this->old_sistema_id);
-          // execute the query
+                      // prepare query statement
+                      $stmt = $this->conn->prepare($query);
+                      $stmt2 = $this->conn->prepare($query2);
+                      // sanitize
+                      $this->vehiculo_id=strip_tags($this->vehiculo_id);
+                      $this->patente=strip_tags($this->patente);
+                      $this->anho_patente=strip_tags($this->anho_patente);
+                      $this->anho_fabricacion=strip_tags($this->anho_fabricacion);
+                      $this->marca=strip_tags($this->marca);
+                      $this->modelo=strip_tags($this->modelo);
+
+                      // bind values
+                      $stmt->bindParam(":vehiculo_id", $this->vehiculo_id);
+                      $stmt->bindParam(":patente", $this->patente);
+                      $stmt->bindParam(":anho_patente", $this->anho_patente);
+                      $stmt->bindParam(":anho_fabricacion", $this->anho_fabricacion);
+                      $stmt->bindParam(":marca", $this->marca);
+                      $stmt->bindParam(":modelo", $this->modelo);
+                      $stmt2->bindParam(1, $this->vehiculo_id);
+                      // execute the query
           try{
             $this->conn->beginTransaction();
             $stmt->execute();
+            $stmt2->bindParam(2,$this->sistema_id[0]);
+            $stmt2->bindParam(3,$this->sistema_id[1]);
+            $stmt2->bindParam(4,$this->sistema_id[2]);
             $stmt2->execute();
+
             // execute query
             if($this->conn->commit()){
                 return true;
             }
           }catch(Exception $e){
+            echo json_encode($e->getMessage());
             $this->conn->rollBack();
             return false;
           }
@@ -300,4 +302,5 @@ function newrelation(){
     return false;
   }
 }
+
 }

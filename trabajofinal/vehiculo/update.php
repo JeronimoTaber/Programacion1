@@ -28,8 +28,7 @@ if(
     !empty($data->anho_fabricacion) &&
     !empty($data->marca) &&
     !empty($data->modelo) &&
-    !empty($data->sistema_id) &&
-    !empty($data->old_sistema_id)
+    !empty($data->sistema_id)
 ){
 // set ID property of vehiculo to be edited
 $vehiculo->vehiculo_id = $data->vehiculo_id;
@@ -39,15 +38,7 @@ $vehiculo->anho_fabricacion = $data->anho_fabricacion;
 $vehiculo->marca = $data->marca;
 $vehiculo->modelo = $data->modelo;
 $vehiculo->sistema_id = $data->sistema_id;
-$vehiculo->old_sistema_id = $data->old_sistema_id;
-if(
-    !empty($data->new_sistema_id)
-){
-  $vehiculo->new_sistema_id = $data->new_sistema_id;
-  $vehiculo->created = date('Y-m-d H:i:s');
 
-  $vehiculo->newrelation();
-}
 // update the vehiculo
 if($vehiculo->update()){
 
