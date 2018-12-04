@@ -38,6 +38,8 @@ $vehiculo->anho_fabricacion = $data->anho_fabricacion;
 $vehiculo->marca = $data->marca;
 $vehiculo->modelo = $data->modelo;
 $vehiculo->sistema_id = $data->sistema_id;
+$vehiculo->created = date('Y-m-d H:i:s');
+
 
 // update the vehiculo
 if($vehiculo->update()){

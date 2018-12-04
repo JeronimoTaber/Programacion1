@@ -223,16 +223,27 @@ class Vehiculo{
                   patente=:patente, anho_patente=:anho_patente, anho_fabricacion=:anho_fabricacion, marca=:marca, modelo=:modelo
                   WHERE
                       vehiculo_id = :vehiculo_id";
-                      $query2 = "DELETE FROM
-                                  " . $this->table_name_sis . "
+                  $query2 = "DELETE FROM
+                              " . $this->table_name_sis . "
                               WHERE
                                   vehiculo_id LIKE ?
-                                  AND NOT
+                              AND NOT
                                   (sistema_id LIKE ? OR sistema_id LIKE ? OR sistema_id LIKE ?)";
 
+                  $query2 = "DELETE FROM
+                                " . $this->table_name_sis . "
+                            WHERE
+                                vehiculo_id LIKE ?
+                            AND NOT
+                                (sistema_id LIKE ? OR sistema_id LIKE ? OR sistema_id LIKE ?)";
+                  $query3 = "INSERT IGNORE INTO
+                              " . $this->table_name_sis . "
+                            SET
+                              vehiculo_id=:vehiculo_id, sistema_id=:sistema_id, created=:created";
                       // prepare query statement
                       $stmt = $this->conn->prepare($query);
                       $stmt2 = $this->conn->prepare($query2);
+                      $stmt3 = $this->conn->prepare($query3);
                       // sanitize
                       $this->vehiculo_id=strip_tags($this->vehiculo_id);
                       $this->patente=strip_tags($this->patente);
@@ -249,6 +260,8 @@ class Vehiculo{
                       $stmt->bindParam(":marca", $this->marca);
                       $stmt->bindParam(":modelo", $this->modelo);
                       $stmt2->bindParam(1, $this->vehiculo_id);
+                      $stmt3->bindParam(":vehiculo_id", $this->vehiculo_id);
+                      $stmt3->bindParam(":created", $this->created);
                       // execute the query
           try{
             $this->conn->beginTransaction();
@@ -257,6 +270,12 @@ class Vehiculo{
             $stmt2->bindParam(3,$this->sistema_id[1]);
             $stmt2->bindParam(4,$this->sistema_id[2]);
             $stmt2->execute();
+            for($i=0; $i<count($this->sistema_id); $i++){
+                $aux = $this->sistema_id[$i];
+                $stmt3->bindParam(":sistema_id", $aux);
+                $stmt3->execute();
+                }
+
 
             // execute query
             if($this->conn->commit()){
